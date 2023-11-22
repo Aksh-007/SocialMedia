@@ -6,9 +6,9 @@ import Register from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 function App() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   return (
-    <>
+    <div className="w-full min-h-[80vh]">
       <Routes>
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path="/" element={<Home />} />
@@ -18,7 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
