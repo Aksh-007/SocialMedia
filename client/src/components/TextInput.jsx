@@ -36,7 +36,9 @@ const TextInput = React.forwardRef(
             aria-invalid={error ? "true" : "false"}
           />
         </div>
-        {error && <span className="text-xs text-[#f64949fe]">{error}</span>}
+        {error && (
+          <span className="text-xs text-[#f64949fe] mt-2">{error}</span>
+        )}
       </div>
     );
   }
