@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import Loading from "../components/Loading.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import BgImage from "../assets/img.jpeg";
-import { BsShare } from "react-icons/bs";
+import { BsBorder, BsShare } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
 const Login = () => {
@@ -40,15 +40,16 @@ const Login = () => {
             </span>
           </div>
 
-          <p className="text-ascent-1 text-base font-semibold">
+          <p className="text-ascent-1 text-xl font-semibold">
             Log in to your account
           </p>
-          <span className="text-sm mt-2 text-ascent-2">Welcome back</span>
+          <span className="text-sm font-semibold  mt-2 text-ascent-2">
+            Welcome back
+          </span>
 
           {/* Login form */}
-
           <form
-            className="py-8 flex flex-col gap-3"
+            className="py-4 flex flex-col gap-2"
             onSubmit={handleSubmit(onSubmit)}
           >
             <TextInput
@@ -59,7 +60,7 @@ const Login = () => {
               register={register("email", {
                 required: "Email Address is required",
               })}
-              styles="w-full rounded-full"
+              styles="w-full "
               labelStyle="ml-2 "
               error={errors.email ? errors.email.message : ""}
             />
@@ -68,7 +69,7 @@ const Login = () => {
               label="Password"
               placeholder="Password"
               type="password"
-              styles="w-full rounded-full"
+              styles="w-full "
               labelStyle="ml-2"
               register={register("password", {
                 required: "Password is required!",
