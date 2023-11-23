@@ -24,7 +24,7 @@ const userSlice = createSlice({
     },
 });
 export default userSlice.reducer;
-  
+
 export function UserLogin(user) {
     return (dispatch) => {
         dispatch(userSlice.actions.login(user));
