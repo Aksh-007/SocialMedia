@@ -6,6 +6,8 @@ import Register from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 function App() {
+  localStorage.setItem("theme", JSON.stringify("dark"));
+  localStorage.setItem("user", JSON.stringify("akshay"));
   return (
     <div className="w-full min-h-[80vh]">
       <Routes>
