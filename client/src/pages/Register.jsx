@@ -98,7 +98,7 @@ const Register = () => {
                 name="password"
                 label="Password"
                 placeholder="Password"
-                type="password"
+                type="Password"
                 styles="w-full "
                 register={register("password", {
                   required: "Password is required!",
@@ -110,7 +110,7 @@ const Register = () => {
                 name="confirmPassword"
                 label="Confirm Password"
                 placeholder="Password"
-                type="password"
+                type="Password"
                 styles="w-full "
                 register={register("cPassword", {
                   validate: (value) => {

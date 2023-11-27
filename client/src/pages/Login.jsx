@@ -68,9 +68,10 @@ const Login = () => {
               name="password"
               label="Password"
               placeholder="Password"
-              type="password"
+              type="Password"
               styles="w-full "
               labelStyle="ml-2"
+              autocomplete
               register={register("password", {
                 required: "Password is required!",
               })}
