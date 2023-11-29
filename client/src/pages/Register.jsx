@@ -109,7 +109,7 @@ const Register = () => {
               <TextInput
                 name="confirmPassword"
                 label="Confirm Password"
-                placeholder="Password"
+                placeholder="Confirm Password"
                 type="Password"
                 styles="w-full "
                 register={register("cPassword", {
