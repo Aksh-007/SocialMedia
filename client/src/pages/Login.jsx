@@ -10,6 +10,8 @@ import BgImage from "../assets/img.jpeg";
 import { BsBorder, BsShare } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
+import { MdVisibilityOff, MdVisibility } from "react-icons/md";
+
 const Login = () => {
   const {
     register,
@@ -24,8 +26,12 @@ const Login = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitiing] = useState(false);
+  const [password, setPassword] = useState(false);
   const dispatch = useDispatch();
 
+  const togglePasswordVisibility = () => {
+    setPassword(!password);
+  };
   return (
     <div className="bg-bgColor w-full  md:h-[100vh] flex items-center justify-center p-6">
       {/* <div className="w-full md:w-2/3 h-fit lg:h-[80vh] 2xl:h-5/6 py-8 lg:py-0 flex bg-primary rounded-xl overflow-hidden shadow-xl"> */}
@@ -66,11 +72,12 @@ const Login = () => {
               labelStyle="ml-2 "
               error={errors.email ? errors.email.message : ""}
             />
+
             <TextInput
               name="password"
               label="Password"
               placeholder="Password"
-              type="Password"
+              type={password ? "text" : "Password"}
               styles="w-full "
               labelStyle="ml-2"
               autocomplete
@@ -79,7 +86,20 @@ const Login = () => {
               })}
               error={errors.password ? errors.password?.message : ""}
             />
-
+            {/* <span onClick={togglePasswordVisibility}>
+              {password ? <MdVisibilityOff /> : <MdVisibility />}
+            </span> */}
+            <div>
+              <input
+                type="checkbox"
+                id="vehicle1"
+                name="vehicle1"
+                value="Bike"
+                onClick={togglePasswordVisibility}
+              />
+              <label> Show Password</label>
+              <br></br>
+            </div>
             <Link
               to="/reset-password"
               className="text-sm text-right text-blue font-semibold "
