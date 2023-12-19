@@ -1,7 +1,7 @@
 import { TbSocial } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import TextInput from "../components/TextInput.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Loading from "../components/Loading.jsx";
@@ -11,8 +11,10 @@ import { BsBorder, BsShare } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
-
+import axios from "axios";
+import toast from "react-hot-toast";
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,8 +22,22 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // e.preventDefault();
-    console.log(data);
+    try {
+      console.log(data);
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/auth/login`,
+        data
+      );
+
+      console.log(response);
+      localStorage.setItem("token", response?.data?.token);
+      if (response.status === 200) {
+        toast.success(response?.data?.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [errMsg, setErrMsg] = useState("");
