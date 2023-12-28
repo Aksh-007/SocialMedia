@@ -7,10 +7,9 @@ import { useDispatch } from "react-redux";
 import Loading from "../components/Loading.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import BgImage from "../assets/img.jpeg";
-import { BsBorder, BsShare } from "react-icons/bs";
+import { BsShare } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
-import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 import axios from "axios";
 import toast from "react-hot-toast";
 const Login = () => {
@@ -114,7 +113,7 @@ const Login = () => {
                 value="Bike"
                 onClick={togglePasswordVisibility}
               />
-              <label> Show Password</label>
+              <label className="text-ascent-1 text-l "> Show Password</label>
               <br></br>
             </div>
             <Link

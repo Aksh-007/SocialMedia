@@ -6,13 +6,24 @@ import Register from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 function App() {
-  localStorage.setItem("theme", JSON.stringify("dark"));
-  localStorage.setItem("user", JSON.stringify("akshay"));
+  // sytem default theme
+  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+  let userPrefersMode = darkThemeMq?.matches;
+  console.log(userPrefersMode);
+  localStorage.setItem(
+    "theme",
+    JSON.stringify(userPrefersMode ? "dark" : "light")
+  );
+
+  // 
+  const { theme } = useSelector((state) => state.theme);
   return (
     <>
       <Toaster />
-      <div className="w-full min-h-[80vh]">
+      <div data-theme={theme} className="w-full min-h-[80vh]">
+        {/* <div className="w-full min-h-[80vh]"> */}
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Home />} />
