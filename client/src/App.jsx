@@ -12,12 +12,13 @@ function App() {
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
   let userPrefersMode = darkThemeMq?.matches;
   console.log(userPrefersMode);
+  // userPrefersMode = false
   localStorage.setItem(
     "theme",
     JSON.stringify(userPrefersMode ? "dark" : "light")
   );
 
-  // 
+  //
   const { theme } = useSelector((state) => state.theme);
   return (
     <>
