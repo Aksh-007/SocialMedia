@@ -6,20 +6,23 @@ import Register from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "./redux/theme.js";
 function App() {
+  const { theme } = useSelector((state) => state.theme);
+  // const dispatch = useDispatch();
+
   // sytem default theme
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
   let userPrefersMode = darkThemeMq?.matches;
-  console.log(userPrefersMode);
-  // userPrefersMode = false
   localStorage.setItem(
     "theme",
     JSON.stringify(userPrefersMode ? "dark" : "light")
   );
+  // dispatch(setTheme(userPrefersMode ? "dark" : "light"));
 
   //
-  const { theme } = useSelector((state) => state.theme);
+
   return (
     <>
       <Toaster />
