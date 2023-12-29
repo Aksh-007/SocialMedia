@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full h-[80px] lg:h-[100px] flex items-center justify-between py-3 md:py-6 px-[90px] bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
+    <div className="w-full h-[80px] lg:h-[95px] flex items-center justify-between py-3 md:py-6 px-8 lg:px-[90px] bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
       <Link to="/" className="flex gap-2 items-center">
         <div className="p-1 md:p-2 bg-[#065ad8] rounded text-white">
           <TbSocial />
@@ -71,10 +71,10 @@ const Navbar = () => {
       <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl">
         {/* toggle icon for theme change */}
         <button onClick={handleTheme}>
-          {theme === "light" ? <BsMoon /> : <BsSunFill />}
+          {theme === "light" ? <BsMoon size={25} /> : <BsSunFill size={25} />}
         </button>
         <div className="hidden lg:flex">
-          <IoMdNotificationsOutline />
+          <IoMdNotificationsOutline size={25} />
         </div>
 
         {/* logout button */}
@@ -82,7 +82,7 @@ const Navbar = () => {
           <CustomButton
             onClick={logout}
             title="Log Out"
-            containerStyles="text-sm text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full"
+            containerStyles="text-sm h-[45px] text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full"
           />
         </div>
       </div>
