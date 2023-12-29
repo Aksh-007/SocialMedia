@@ -20,7 +20,7 @@ const TopBar = () => {
     formState: { errors },
   } = useForm();
 
-  //   functional to toggle theme
+  //   function to toggle theme
   const handleTheme = () => {
     let themeValue = theme === "light" ? "dark" : "light";
     localStorage.setItem("theme", JSON.stringify(themeValue));
@@ -32,23 +32,23 @@ const TopBar = () => {
     console.log(data);
   };
   return (
-    <div className="topbar w-full flex items-center justify-between py-3 md:py-6 px-4 bg-primary">
+    <div className="w-full flex items-center justify-between py-3 md:py-6 px-10 bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
       <Link to="/" className="flex gap-2 items-center">
         <div className="p-1 md:p-2 bg-[#065ad8] rounded text-white">
           <TbSocial />
         </div>
         <span className="text-xl md:text-2xl text-[#065ad8] font-semibold">
-          ShareFun
+          LinkLeap
         </span>
       </Link>
 
       <form
-        className="hidden md:flex items-center justify-center"
+        className="hidden md:flex items-center justify-center "
         onSubmit={handleSubmit(handleSearch)}
       >
         <TextInput
           placeholder="Search..."
-          styles="w-[18rem] lg:w-[38rem]  rounded-l-full py-3 "
+          styles="w-[18rem] lg:w-[33rem]  rounded-l-full py-3 "
           register={register("search")}
         />
         <CustomButton
@@ -60,6 +60,7 @@ const TopBar = () => {
 
       {/* ICONS */}
       <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl">
+        {/* toggle icon for theme change */}
         <button onClick={handleTheme}>
           {theme === "light" ? <BsMoon /> : <BsSunFill />}
         </button>
@@ -67,6 +68,7 @@ const TopBar = () => {
           <IoMdNotificationsOutline />
         </div>
 
+        {/* logout button */}
         <div>
           <CustomButton
             onClick={() => dispatch(Logout())}
