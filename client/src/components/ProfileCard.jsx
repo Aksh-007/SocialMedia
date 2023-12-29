@@ -32,7 +32,7 @@ const ProfileCard = ({
   const dispatch = useDispatch();
   return (
     <div className="w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4 ">
-      <div className="w-full flex items-center justify-between border-b pb-5 border-[#66666645]">
+      <div className="w-full flex items-center justify-between border-b pb-5 border-borderColor">
         <Link to={`/profile/${_id}`} className="flex gap-2">
           <img
             src={profileUrl ?? NoProfile}
@@ -68,7 +68,7 @@ const ProfileCard = ({
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-2 py-4 border-b border-[#66666645]">
+      <div className="w-full flex flex-col gap-2 py-4 border-b border-borderColor">
         <div className="flex gap-2 items-center text-ascent-2">
           <CiLocationOn className="text-xl text-ascent-1" />
           <span>{location ?? "Add Location"}</span>
@@ -80,7 +80,7 @@ const ProfileCard = ({
         </div>
       </div>
 
-      <div className="w-full flex flex-col gap-2 py-4 border-b border-[#66666645]">
+      <div className="w-full flex flex-col gap-2 py-4 border-b border-borderColor">
         <p className="text-xl text-ascent-1 font-semibold">
           {friends?.length} Friends
         </p>
@@ -102,6 +102,7 @@ const ProfileCard = ({
         </div>
       </div>
 
+      {/* social Profile card */}
       <div className="w-full flex flex-col gap-4 py-4 pb-6">
         <p className="text-ascent-1 text-lg font-semibold">Social Profile</p>
 

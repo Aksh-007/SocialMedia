@@ -10,7 +10,7 @@ import { setTheme } from "../redux/theme";
 import { useNavigate } from "react-router-dom";
 import { Logout } from "../redux/userSlice";
 
-const TopBar = () => {
+const Navbar = () => {
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const TopBar = () => {
   };
 
   return (
-    <div className="w-full h-[80px] lg:h-[100px] flex items-center justify-between py-3 md:py-6 px-10 bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
+    <div className="w-full h-[80px] lg:h-[100px] flex items-center justify-between py-3 md:py-6 px-[90px] bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
       <Link to="/" className="flex gap-2 items-center">
         <div className="p-1 md:p-2 bg-[#065ad8] rounded text-white">
           <TbSocial />
@@ -63,7 +63,7 @@ const TopBar = () => {
         <CustomButton
           title="Search"
           type="submit"
-          containerStyles="bg-[#0444a4] text-white px-6 py-2.5 mt-2 rounded-r-full"
+          containerStyles="bg-[#0444a4] h-[46px] text-white px-6 py-2.5 mt-2 rounded-r-full"
         />
       </form>
 
@@ -90,4 +90,4 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+export default Navbar;

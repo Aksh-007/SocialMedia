@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import TopBar from "./TopBar";
+import Navbar from "./Navbar";
 
 const ProtectedRoute = () => {
   // console.log(!!localStorage.getItem("token"));
@@ -12,7 +12,7 @@ const ProtectedRoute = () => {
 
   return (
     <>
-      <TopBar />
+      <Navbar />
       <Outlet />;
     </>
   );
