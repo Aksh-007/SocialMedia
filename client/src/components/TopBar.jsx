@@ -7,12 +7,14 @@ import { useForm } from "react-hook-form";
 import { BsMoon, BsSunFill } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { setTheme } from "../redux/theme";
+import { useNavigate } from "react-router-dom";
 import { Logout } from "../redux/userSlice";
 
 const TopBar = () => {
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,8 +33,15 @@ const TopBar = () => {
   const handleSearch = async (data) => {
     console.log(data);
   };
+
+  // logout function
+  const logout = () => {
+    dispatch(Logout());
+    navigate("/login");
+  };
+
   return (
-    <div className="w-full flex items-center justify-between py-3 md:py-6 px-10 bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
+    <div className="w-full h-[80px] lg:h-[100px] flex items-center justify-between py-3 md:py-6 px-10 bg-primary shadow-xl sticky top-0 backdrop-blur-md z-10">
       <Link to="/" className="flex gap-2 items-center">
         <div className="p-1 md:p-2 bg-[#065ad8] rounded text-white">
           <TbSocial />
@@ -71,7 +80,7 @@ const TopBar = () => {
         {/* logout button */}
         <div>
           <CustomButton
-            onClick={() => dispatch(Logout())}
+            onClick={logout}
             title="Log Out"
             containerStyles="text-sm text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full"
           />

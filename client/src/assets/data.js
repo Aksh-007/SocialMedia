@@ -3,6 +3,8 @@ export const user = {
   firstName: "Akshay",
   lastName: "Barapatre",
   email: "akshaybarapatre54@gmail.com",
+  profession: "Software Developer",
+  location: "Nagpur, Maharashtra",
   friends: [
     {
       _id: "64df3aec4180b81adfe41d32",
@@ -86,7 +88,7 @@ export const user = {
   createdAt: "2023-08-18T09:38:14.179Z",
   updatedAt: "2023-08-21T06:46:18.258Z",
   profileUrl:
-    "https://res.cloudinary.com/djs3wu5bg/image/upload/v1683874454/samples/people/boy-snow-hoodie.jpg",
+    "https://avatars.githubusercontent.com/u/75266804?v=4",
   token: "hZWFmZmU3NmMiLCJpYXQiOjE2OTIwMzY5",
 };
 
