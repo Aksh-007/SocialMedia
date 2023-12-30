@@ -59,12 +59,31 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             : post?.description.slice(0, 300)}
           {post?.description?.length > 301 &&
             (showAll === post?._id ? (
-              <span className="text-base text-blue">Show Less</span>
+              <span
+                className=" ml-2 text-base text-blue"
+                onClick={() => setShowAll(0)}
+              >
+                Show Less
+              </span>
             ) : (
-              <span className="text-base text-blue">....Show More</span>
+              <span
+                className="ml-2 text-base text-blue"
+                onClick={() => setShowAll(post?._id)}
+              >
+                Show More
+              </span>
             ))}
         </p>
       </div>
+
+      {/* image section */}
+      {post?.image && (
+        <img
+          src={post?.image}
+          alt={post?.firstName}
+          className="w-full mt-2 rounded-lg"
+        />
+      )}
     </div>
   );
 };
