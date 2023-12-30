@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "./redux/theme.js";
+import useScrollTop from "./utils/useScrollTop.js";
 function App() {
   const { theme } = useSelector((state) => state.theme);
   // const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
 
   //
 
+  useScrollTop();
   return (
     <>
       <Toaster />

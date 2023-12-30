@@ -3,7 +3,7 @@ export const user = {
   firstName: "Akshay",
   lastName: "Barapatre",
   email: "akshaybarapatre54@gmail.com",
-  profession: "Software Developer",
+  profession: "Full-Stack Developer",
   location: "Nagpur, Maharashtra",
   friends: [
     {
