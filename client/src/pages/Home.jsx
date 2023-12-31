@@ -32,6 +32,7 @@ const Home = () => {
   const submitData = async (data) => {
     console.log(data);
   };
+
   return (
     <div
       className="w-full h-full pb-20 lg:px-20 bg-bgColor  overflow-hidden "
@@ -41,13 +42,14 @@ const Home = () => {
       <div className="w-full  flex gap-2 lg:gap-4  lg:pt-5 pb-10 ">
         {/* left */}
         <div
-          className="hidden w-1/3 lg:w-1/4 h-full md:flex flex-col gap-6 overflow-auto"
+          className="hidden w-1/3 lg:w-1/4 h-full md:flex flex-col gap-6 overflow-auto "
           // style={{ border: "2px solid black" }}
           key={user?._id}
         >
           <ProfileCard {...user} />
           <FriendsCard {...user} />
         </div>
+
         {/* Center */}
         <div className="flex-1 h-full bg-primary px-4 flex flex-col gap-6 overflow-y-auto shadow-sm rounded-lg">
           <form

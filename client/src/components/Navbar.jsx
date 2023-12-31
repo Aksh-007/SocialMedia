@@ -68,13 +68,13 @@ const Navbar = () => {
       </form>
 
       {/* ICONS */}
-      <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl">
+      <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl ">
         {/* toggle icon for theme change */}
         <button onClick={handleTheme}>
           {theme === "light" ? <BsMoon size={25} /> : <BsSunFill size={25} />}
         </button>
-        <div className="hidden lg:flex">
-          <IoMdNotificationsOutline size={25} />
+        <div className="hidden lg:flex ">
+          <IoMdNotificationsOutline className="cursor-pointer" size={25} />
         </div>
 
         {/* logout button */}

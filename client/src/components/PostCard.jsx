@@ -29,7 +29,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
           <img
             src={post?.image ?? NoProfile}
             alt={post?.userId?.firstName}
-            className="w-14 h-14 object-cover rounded-full"
+            className="w-14 h-12 object-cover rounded-full"
           />
         </Link>
 
@@ -60,14 +60,14 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
           {post?.description?.length > 301 &&
             (showAll === post?._id ? (
               <span
-                className=" ml-2 text-base text-blue"
+                className=" ml-2 text-base text-blue cursor-pointer"
                 onClick={() => setShowAll(0)}
               >
                 Show Less
               </span>
             ) : (
               <span
-                className="ml-2 text-base text-blue"
+                className="ml-2 text-base text-blue cursor-pointer"
                 onClick={() => setShowAll(post?._id)}
               >
                 Show More
