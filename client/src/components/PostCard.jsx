@@ -19,7 +19,6 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
   const [replyComments, setReplyComments] = useState(0);
   const [showComments, setShowComments] = useState(0);
 
-  console.log("Post Card", post);
   return (
     <div className="mb-2 bg-primary p-4 rounded-xl">
       {/* header of post */}
@@ -44,7 +43,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             <span className="text-ascent-2">{post?.userId?.location}</span>
           </div>
 
-          {/* when the post was posted */}
+          {/* posting time of image  */}
           <span className="text-ascent-2">
             {moment(post?.createdAt ?? "2023-12-30").fromNow()}
           </span>

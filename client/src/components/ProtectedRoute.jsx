@@ -13,7 +13,7 @@ const ProtectedRoute = () => {
   return (
     <>
       <Navbar />
-      <Outlet />;
+      <Outlet />
     </>
   );
 };
