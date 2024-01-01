@@ -18,8 +18,6 @@ import FriendsSugestion from "../components/FriendsSugestion.jsx";
 const Home = () => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [friendRequest, setFriendRequest] = useState(requests);
-  const [suggestedFriends, setSuggestedFriends] = useState(suggest);
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);

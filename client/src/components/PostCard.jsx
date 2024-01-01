@@ -28,7 +28,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
           <img
             src={post?.image ?? NoProfile}
             alt={post?.userId?.firstName}
-            className="w-14 h-12 object-cover rounded-full"
+            className="w-14 h-12 object-cover rounded-full "
           />
         </Link>
 
@@ -80,7 +80,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
         <img
           src={post?.image}
           alt={post?.firstName}
-          className="w-full mt-5 rounded-lg"
+          className="w-full mt-5 rounded-lg shadow-2xl "
         />
       )}
     </div>
