@@ -80,7 +80,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
         <img
           src={post?.image}
           alt={post?.firstName}
-          className="w-full mt-2 rounded-lg"
+          className="w-full mt-5 rounded-lg"
         />
       )}
     </div>

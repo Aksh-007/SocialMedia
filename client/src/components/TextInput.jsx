@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import React from "react";
+import React, { forwardRef } from "react";
 // import PropTypes from "prop-types";
 
 // prop type
@@ -14,7 +14,7 @@ import React from "react";
 //   name: PropTypes.string.isRequired,
 //   error: PropTypes.string.isRequired,
 // };
-const TextInput = React.forwardRef(
+const TextInput = forwardRef(
   (
     { type, placeholder, styles, label, labelStyles, register, name, error },
     ref

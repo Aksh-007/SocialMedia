@@ -246,6 +246,14 @@ const Home = () => {
                         {friend?.profession ?? "No Profession"}
                       </span>
                     </div>
+                    <div>
+                      <button
+                        className="bg-[#0444a430] text-sm  text-white p-1 rounded"
+                        onClick={() => {}}
+                      >
+                        <BsPersonFillAdd size={22} className="text-blue" />
+                      </button>
+                    </div>
                   </Link>
                 </div>
               ))}
