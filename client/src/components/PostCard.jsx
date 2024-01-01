@@ -24,6 +24,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
   const getComments = async () => {
     setReplyComments(0);
     setComments(postComments);
+    setLoading(false);
   };
 
   // function to show all comments
@@ -145,18 +146,66 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
             getComments={() => getComments(post?._id)}
           />
 
-          {/*  */}
           {loading ? (
-            // show Loading while fetching comments
             <Loading />
           ) : comments?.length > 0 ? (
-            // if there is comments
-            <div className=""></div>
+            comments?.map((comment) => (
+              <div className="w-full py-2" key={comment?._id}>
+                <div className="flex gap-3 items-center mb-1">
+                  <Link to={"/profile/" + comment?.userId?._id}>
+                    <img
+                      src={comment?.userId?.profileUrl ?? NoProfile}
+                      alt={comment?.userId?.firstName}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  </Link>
+                  <div>
+                    <Link to={"/profile/" + comment?.userId?._id}>
+                      <p className="font-medium text-base text-ascent-1">
+                        {comment?.userId?.firstName} {comment?.userId?.lastName}
+                      </p>
+                    </Link>
+                    <span className="text-ascent-2 text-sm">
+                      {moment(comment?.createdAt ?? "2023-05-25").fromNow()}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="ml-12">
+                  <p className="text-ascent-2">{comment?.comment}</p>
+
+                  <div className="mt-2 flex gap-6">
+                    <p className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer">
+                      {comment?.likes?.includes(user?._id) ? (
+                        <BiSolidLike size={20} color="blue" />
+                      ) : (
+                        <BiLike size={20} />
+                      )}
+                      {comment?.likes?.length} Likes
+                    </p>
+                    <span
+                      className="text-blue cursor-pointer"
+                      onClick={() => setReplyComments(comment?._id)}
+                    >
+                      Reply
+                    </span>
+                  </div>
+
+                  {replyComments === comment?._id && (
+                    <CommentForm
+                      user={user}
+                      id={comment?._id}
+                      replyAt={comment?.from}
+                      getComments={() => getComments(post?._id)}
+                    />
+                  )}
+                </div>
+              </div>
+            ))
           ) : (
-            // no comments
-            <div className="text-ascent-2 py-4 text-sm ">
-              No Comments on this Post
-            </div>
+            <span className="flex text-sm py-4 text-ascent-2 text-center">
+              No Comments, be first to comment
+            </span>
           )}
         </div>
       )}
