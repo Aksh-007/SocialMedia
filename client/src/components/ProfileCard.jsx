@@ -30,6 +30,7 @@ const ProfileCard = ({
 }) => {
   const { user: data, edit } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  console.log(data)
   return (
     <div className="w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4 ">
       <div className="w-full flex items-center justify-between border-b pb-5 border-borderColor">

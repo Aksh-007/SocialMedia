@@ -10,7 +10,8 @@ import TextInput from "./TextInput";
 import Loading from "./Loading";
 import CustomButton from "./CustomButton";
 import { postComments } from "../assets/data";
-
+import { useSelector } from "react-redux";
+import CommentForm from "./CommentForm";
 const PostCard = ({ post, user, deletePost, likePost }) => {
   const [showAll, setShowAll] = useState(0);
   const [showReply, setShowReply] = useState(0);
@@ -19,6 +20,17 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
   const [replyComments, setReplyComments] = useState(0);
   const [showComments, setShowComments] = useState(0);
 
+  // for getComments
+  const getComments = async () => {
+    setReplyComments(0);
+    setComments(postComments);
+  };
+
+  // function to show all comments
+  const showAllComments = () => {
+    setComments(showComments === post?._id ? null : post?._id);
+    getComments(post?._id);
+  };
   return (
     <div className="mb-2 bg-primary p-4 rounded-xl">
       {/* header of post */}
@@ -73,15 +85,80 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
               </span>
             ))}
         </p>
+
+        {/* image section */}
+        {post?.image && (
+          <img
+            src={post?.image}
+            alt={post?.firstName}
+            className="w-full mt-5 rounded-lg shadow-2xl "
+          />
+        )}
       </div>
 
-      {/* image section */}
-      {post?.image && (
-        <img
-          src={post?.image}
-          alt={post?.firstName}
-          className="w-full mt-5 rounded-lg shadow-2xl "
-        />
+      {/* Like and comment section */}
+      <div
+        className="mt-4 flex justify-between items-center px-3 py-2 text-ascent-2
+      text-base border-t border-[#66666645]"
+      >
+        {/* this is for likr */}
+        <p className="flex gap-2 items-center text-base cursor-pointer">
+          {/* here to check if user like the post */}
+          {post?.likes?.includes(user?._id) ? (
+            <BiSolidLike size={20} color="blue" />
+          ) : (
+            <BiLike size={20} />
+          )}
+          {post?.likes?.length} Likes
+        </p>
+
+        {/* On click of comments show all the comments on the post */}
+        <p
+          className="flex gap-2 items-center text-base cursor-pointer"
+          onClick={() => {
+            setShowComments(showComments === post._id ? null : post._id);
+            getComments(post?._id);
+          }}
+        >
+          <BiComment size={20} />
+          {post?.comments?.length} Comments
+        </p>
+
+        {/* This is for delete button render if the post is of user  */}
+        {user?._id === post?.userId?._id && (
+          <div
+            className="flex gap-1 items-center text-base text-ascent-1 cursor-pointer"
+            onClick={() => deletePost(post?._id)}
+          >
+            <MdOutlineDeleteOutline size={20} />
+            <span>Delete</span>
+          </div>
+        )}
+      </div>
+
+      {/* Comments form to post comment */}
+      {showComments === post?._id && (
+        <div className="w-full mt-4 border-t border-[#66666645] pt-4 ">
+          <CommentForm
+            user={user}
+            id={post?._id}
+            getComments={() => getComments(post?._id)}
+          />
+
+          {/*  */}
+          {loading ? (
+            // show Loading while fetching comments
+            <Loading />
+          ) : comments?.length > 0 ? (
+            // if there is comments
+            <div className=""></div>
+          ) : (
+            // no comments
+            <div className="text-ascent-2 py-4 text-sm ">
+              No Comments on this Post
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
