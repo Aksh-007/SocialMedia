@@ -28,9 +28,14 @@ const ProfileCard = ({
   friends,
   views,
 }) => {
-  const { user: data, edit } = useSelector((state) => state.user);
+  const { user: data, UpdateProfile } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(data)
+
+  // edit handle
+  const edithandle = () => {
+    dispatch(UpdateProfile(true));
+    console.log("Edit click");
+  };
   return (
     <div className="w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4 ">
       <div className="w-full flex items-center justify-between border-b pb-5 border-borderColor">
@@ -56,7 +61,7 @@ const ProfileCard = ({
             <LiaEditSolid
               size={22}
               className="text-blue cursor-pointer"
-              onClick={() => dispatch(UpdateProfile(true))}
+              onClick={edithandle}
             />
           ) : (
             <button
