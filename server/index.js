@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 
 app.listen(PORT, (req, res) => {
-    console.log(`App is listening on http://localhost:${PORT}/`)
+    console.log(`App is listening on http://localhost:${PORT}`)
 })
 
 

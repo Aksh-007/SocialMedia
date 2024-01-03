@@ -21,25 +21,28 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    // e.preventDefault();
-    const { cPassword, ...requestData } = data;
-    try {
-      console.log(requestData);
-      const response = await axios.post(
-        `http://localhost:5000/api/v1/auth/signup`,
-        data
-      );
-      console.log(response);
-      console.log(response?.data?.message);
-      toast.success(response?.data?.message);
-      response.status === 200 ? navigate("/login") : "";
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message);
-    }
-  };
+  // const onSubmit = async (data) => {
+  //   // e.preventDefault();
+  //   const { cPassword, ...requestData } = data;
+  //   try {
+  //     console.log(requestData);
+  //     const response = await axios.post(
+  //       `http://localhost:5000/api/v1/auth/signup`,
+  //       data
+  //     );
+  //     console.log(response);
+  //     console.log(response?.data?.message);
+  //     toast.success(response?.data?.message);
+  //     response.status === 200 ? navigate("/login") : "";
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error?.response?.data?.message);
+  //   }
+  // };
 
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitiing] = useState(false);
   const dispatch = useDispatch();
@@ -83,7 +86,7 @@ const Register = () => {
                   })}
                   styles="w-full "
                   labelStyle="ml-2 "
-                  error={errors.email ? errors.email.message : ""}
+                  error={errors.firstName ? errors.firstName.message : ""}
                 />
 
                 <TextInput
@@ -96,7 +99,7 @@ const Register = () => {
                   })}
                   styles="w-full "
                   labelStyle="ml-2 "
-                  error={errors.email ? errors.email.message : ""}
+                  error={errors.lastName ? errors.lastName.message : ""}
                 />
               </div>
               <TextInput
