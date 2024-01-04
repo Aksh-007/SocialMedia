@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose"
-
+import bcrypt from "bcryptjs"
 const userSchema = new mongoose.Schema(
     {
         firstName: {
@@ -44,6 +44,15 @@ const userSchema = new mongoose.Schema(
     },
     { timestamps: true }
 )
+
+
+// defining pre hooks to encrypt pasword
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    this.password = await bcrypt.hash(this.password, 10)
+    next();
+})
+
 
 
 export default mongoose.model("User", userSchema)

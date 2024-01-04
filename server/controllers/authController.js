@@ -20,12 +20,14 @@ export const register = asyncHandler(async (req, res) => {
     const userExists = await userSchema.findOne({ email })
     if (userExists) throw new Error("User Already Exists Please Login", 400)
 
-    const newUser = await userSchema.create({
+    let newUser = await userSchema.create({
         firstName,
         lastName,
         email,
         password
     })
+
+    newUser.password = undefined
 
     res.status(200).json({
         success: true,
