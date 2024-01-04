@@ -6,7 +6,7 @@ import morgan from "morgan"
 import bodyParser from "body-parser";
 // for security
 import helmet from "helmet";
-
+import router from "./routes/main.routes.js"
 
 const app = express();
 
@@ -24,13 +24,12 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(morgan('dev'))
 
-app.get("/", (req, res) => {
-    res.send(`<h1>App is Running</h1>`)
-})
+// router middleware
+app.use("/api/v1/", router)
 
 
 app.listen(PORT, (req, res) => {
-    console.log(`App is listening on http://localhost:${PORT}`)
+    console.log(`App is listening on http://localhost:${PORT}/api/v1/`)
 })
 
 
