@@ -2,8 +2,10 @@ import mongoose, { Schema } from "mongoose"
 import bcrypt from "bcryptjs"
 import JWT from "jsonwebtoken"
 import dotenv from 'dotenv'
+import crypto from "crypto"
 
 dotenv.config()
+
 const userSchema = new mongoose.Schema(
     {
         firstName: {
@@ -44,7 +46,11 @@ const userSchema = new mongoose.Schema(
         verified: {
             type: Boolean,
             default: false,
-        }
+        },
+        emailVerificationToken: String,
+        emailVerificationExpiry: Date,
+        forgotPasswordToken: String,
+        forgotPasswordExpiry: Date,
     },
     { timestamps: true }
 )
@@ -53,9 +59,19 @@ const userSchema = new mongoose.Schema(
 // defining pre hooks to encrypt pasword
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, dotenv.BCRYPT_SALT_VALUE)
+    console.log("pre password hook")
+    this.password = await bcrypt.hash(this.password, 10)
     next();
 })
+
+//  hook to encrypt emailVerificationtoken 
+userSchema.pre('save', async function (next) {
+    if (!this.isModified("emailVerificationToken")) return next();
+    console.log("pre emailverificationhook hook")
+    this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
+    next()
+})
+// 
 
 
 userSchema.method = {
@@ -70,7 +86,7 @@ userSchema.method = {
     },
 
     // method to generate JWT token
-    getJWTToken: function () {
+    getJWTToken: async function () {
         try {
             return JWT.sign(
                 {
@@ -86,9 +102,7 @@ userSchema.method = {
             console.log(error)
             throw new Error("Error in create JWT Token", 400)
         }
-    }
-
-
+    },
 
 }
 
