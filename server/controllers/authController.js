@@ -32,6 +32,8 @@ export const register = asyncHandler(async (req, res) => {
         emailVerificationToken
     })
 
+
+
     //  here dont want to share token and password 
     newUser.password = undefined
     newUser.emailVerificationToken = undefined
@@ -42,6 +44,89 @@ export const register = asyncHandler(async (req, res) => {
         newUser,
     })
 
+    // const verifyUrl =
+    //     `${req.protocol}://${req.get("host")}/api/auth/password/verify/${emailVerificationToken}`
+    // console.log("verifyUrl is", verifyUrl)
+    // const html = `<div>
+    // style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
+    // <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
+    // <hr>
+    // <h4>Hi ${firstName}${lastName},</h4>
+    // <p>
+    //     Please verify your email address so we can know that it's really you.
+    //     <br>
+    // <p>This link <b>expires in 1 hour</b></p>
+    // <br>
+    // <a href=${verifyUrl}
+    //     style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
+    //     Email Address</a>
+    // </p>
+    // <div style="margin-top: 20px;">
+    //     <h5>Best Regards</h5>
+    //     <h5>ShareFun Team</h5>
+    // </div>
+    //             </div>`
+
+    // sending token to mail
+    // try {
+    //     await mailHelper({
+    //         email: newUser.email,
+    //         subject: "Password reset email for website",
+    //         html: html,
+    //     })
+    //     res.status(200).json({
+    //         success: true,
+    //         message: `Email send to ${newUser.email}`
+    //     })
+    // } catch (err) {
+    //     //roll back - clear fields and save
+    //     userSchema.emailVerificationToken = undefined
+    //     await userSchema.save({ validateBeforeSave: false })
+    //     throw new Error(err.message || 'Email sent failure', 500)
+    // }
+
 })
 
 
+/******************************************************
+ * @POST_LOGIN
+ * @route http://localhost:5000/api/v1/auth/login
+ * @description login the user 
+ * @parameters email , password 
+ * @returns User Object
+ ******************************************************/
+export const login = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email) throw new Error('Please Fill Email Field');
+    if (!password) throw new Error('Please Fill password Field');
+
+    const userExist = await userSchema.findOne({ email }).select("+password")
+
+    if (!userExist) throw new Error('Please Register User')
+
+    if (userExist.verified === false) throw new Error("please Verify Email")
+
+    console.log('userExist ', userExist)
+    const isPasswordMatch = await userExist.comparePassword(password)
+
+    // cookies options
+    const cookieOptions = {
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        //could be in a separate file in utils
+    }
+    if (isPasswordMatch) {
+        const token = await userExist.getJWTToken()
+        console.log(token)
+        userExist.password = undefined
+        res.cookie('token', token, cookieOptions)
+        return res.status(200).json({
+            success: true,
+            message: "Login Sucesfully",
+            token,
+            userExist
+        })
+    }
+
+})

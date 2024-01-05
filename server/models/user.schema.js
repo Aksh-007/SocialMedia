@@ -6,6 +6,7 @@ import crypto from "crypto"
 
 dotenv.config()
 
+const { JWT_SECRET, JWT_EXPIRY } = process.env
 const userSchema = new mongoose.Schema(
     {
         firstName: {
@@ -74,14 +75,15 @@ userSchema.pre('save', async function (next) {
 // 
 
 
-userSchema.method = {
+userSchema.methods = {
     // method to compare password
     comparePassword: async function (enteredPassword) {
         try {
+            console.log(enteredPassword)
             return await bcrypt.compare(enteredPassword, this.password)
         } catch (error) {
             console.log(error)
-            throw new Error("Error in create JWT Token", 400)
+            throw new Error("Error in create Compare password", 400)
         }
     },
 
@@ -105,6 +107,8 @@ userSchema.method = {
     },
 
 }
+
+
 
 
 export default mongoose.model("User", userSchema)
