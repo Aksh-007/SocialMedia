@@ -1,6 +1,7 @@
 import userSchema from "../models/user.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
-
+import crypto from "crypto"
+import hashedToken from "../utility/hashToken.js"
 
 
 /******************************************************
@@ -20,18 +21,24 @@ export const register = asyncHandler(async (req, res) => {
     const userExists = await userSchema.findOne({ email })
     if (userExists) throw new Error("User Already Exists Please Login", 400)
 
-    let newUser = await userSchema.create({
+    //  createing a random string and set it as token 
+    const emailVerificationToken = crypto.randomBytes(20).toString('hex');
+    console.log('email verified token ', emailVerificationToken)
+    const newUser = await userSchema.create({
         firstName,
         lastName,
         email,
-        password
+        password,
+        emailVerificationToken
     })
 
+    //  here dont want to share token and password 
     newUser.password = undefined
+    newUser.emailVerificationToken = undefined
 
     res.status(200).json({
         success: true,
-        message: "User Registerd successfully",
+        message: `User Registerd successfully Verification email sent to:${newUser.email}`,
         newUser,
     })
 
