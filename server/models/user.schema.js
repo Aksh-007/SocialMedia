@@ -1,5 +1,9 @@
 import mongoose, { Schema } from "mongoose"
 import bcrypt from "bcryptjs"
+import JWT from "jsonwebtoken"
+import dotenv from 'dotenv'
+
+dotenv.config()
 const userSchema = new mongoose.Schema(
     {
         firstName: {
@@ -49,10 +53,44 @@ const userSchema = new mongoose.Schema(
 // defining pre hooks to encrypt pasword
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, dotenv.BCRYPT_SALT_VALUE)
     next();
 })
 
+
+userSchema.method = {
+    // method to compare password
+    comparePassword: async function (enteredPassword) {
+        try {
+            return await bcrypt.compare(enteredPassword, this.password)
+        } catch (error) {
+            console.log(error)
+            throw new Error("Error in create JWT Token", 400)
+        }
+    },
+
+    // method to generate JWT token
+    getJWTToken: function () {
+        try {
+            return JWT.sign(
+                {
+                    _id: this._id,
+                    firstName: this.firstName,
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: process.env.JWT_EXPIRY
+                }
+            )
+        } catch (error) {
+            console.log(error)
+            throw new Error("Error in create JWT Token", 400)
+        }
+    }
+
+
+
+}
 
 
 export default mongoose.model("User", userSchema)
