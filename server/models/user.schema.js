@@ -92,7 +92,6 @@ userSchema.methods = {
 
     compareVerifyToken: async function (enteredToken) {
         try {
-            console.log(ente)
             return await bcrypt.compare(enteredToken, this.emailVerificationToken)
         } catch (error) {
             console.log(error);
