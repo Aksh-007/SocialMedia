@@ -1,7 +1,6 @@
 import userSchema from "../models/user.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import crypto from "crypto"
-import hashedToken from "../utility/hashToken.js"
 
 
 /******************************************************
@@ -101,20 +100,22 @@ export const login = asyncHandler(async (req, res) => {
     if (!email) throw new Error('Please Fill Email Field');
     if (!password) throw new Error('Please Fill password Field');
 
+    // here please select password otherwise no password selected
     const userExist = await userSchema.findOne({ email }).select("+password")
 
     if (!userExist) throw new Error('Please Register User')
 
     if (userExist.verified === false) throw new Error("please Verify Email")
 
-    console.log('userExist ', userExist)
     const isPasswordMatch = await userExist.comparePassword(password)
 
     // cookies options
     const cookieOptions = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        //could be in a separate file in utils
+        // secure: true, // Cookie will only be sent over HTTPS
+        // domain: 'example.com', // Cookie is valid for the entire domain
+        // path: '/', // Cookie is valid for all URLs under the domain
     }
     if (isPasswordMatch) {
         const token = await userExist.getJWTToken()
