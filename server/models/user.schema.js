@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
         views: [
             { type: String }
         ],
-        verified: {
+        isVerified: {
             type: Boolean,
             default: false,
         },
@@ -57,22 +57,25 @@ const userSchema = new mongoose.Schema(
 )
 
 
-// defining pre hooks to encrypt pasword
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    console.log("pre password hook")
-    this.password = await bcrypt.hash(this.password, 10)
-    next();
+
+    try {
+        // defining pre hooks to encrypt pasword
+        if (!this.isModified("password")) return next();
+        this.password = await bcrypt.hash(this.password, 10)
+
+        //  hook to encrypt emailVerificationtoken 
+        if (!this.isModified("emailVerificationToken")) return next();
+        this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
+
+        // 
+        next()
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
 })
 
-//  hook to encrypt emailVerificationtoken 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified("emailVerificationToken")) return next();
-    console.log("pre emailverificationhook hook")
-    this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
-    next()
-})
-// 
 
 
 userSchema.methods = {
@@ -84,6 +87,16 @@ userSchema.methods = {
         } catch (error) {
             console.log(error)
             throw new Error("Error in create Compare password", 400)
+        }
+    },
+
+    compareVerifyToken: async function (enteredToken) {
+        try {
+            console.log(ente)
+            return await bcrypt.compare(enteredToken, this.emailVerificationToken)
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error while comparing Verify token ")
         }
     },
 
