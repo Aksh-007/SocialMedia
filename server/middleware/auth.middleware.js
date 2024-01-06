@@ -5,15 +5,6 @@ import userSchema from "../models/user.schema.js";
 
 export const isLoggedIn = asyncHandler(async (req, res, next) => {
 
-
-    //  here first check is user isVrified 
-    const { email } = req.body
-
-    const userExists = await userSchema.findOne({ email })
-    if (!userExists) throw new Error("User does not exist please register")
-
-    if (userExists.isVerified === false) throw new Error("Please Verify the user")
-
     let token;
 
     if (req.cookies.token || (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
