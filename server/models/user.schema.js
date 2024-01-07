@@ -68,7 +68,11 @@ userSchema.pre("save", async function (next) {
         if (!this.isModified("emailVerificationToken")) return next();
         this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
 
-        // 
+        // hook to encrypt forgotPasswordToken
+        if (!this.isModified("forgotPasswordToken")) return next();
+        this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
+
+
         next()
     } catch (error) {
         console.log(error)
