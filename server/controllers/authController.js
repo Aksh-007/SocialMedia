@@ -99,7 +99,6 @@ export const register = asyncHandler(async (req, res) => {
  ******************************************************/
 export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-
     if (!email) throw new Error('Please Fill Email Field');
     if (!password) throw new Error('Please Fill password Field');
 
@@ -112,6 +111,7 @@ export const login = asyncHandler(async (req, res) => {
 
     const isPasswordMatch = await userExist.comparePassword(password)
 
+    if (!isPasswordMatch) throw new Error("Invalid Password")
     // cookies options
     const cookieOptions = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
