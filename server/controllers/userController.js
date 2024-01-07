@@ -1,5 +1,6 @@
 import userSchema from "../models/user.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
+import randomStringGenerator from "../utility/randomStringGenerator.js"
 
 
 /******************************************************
@@ -35,4 +36,36 @@ export const verifyEmail = asyncHandler(async (req, res) => {
     })
 
 
+})
+
+
+
+
+/******************************************************
+ * @GET_PASSWORD_RESET
+ * @route http://localhost:5000/api/v1/user/forgot-password
+ * @description Verify the email,
+ * @parameters email  
+ * @returns sucess message email sent
+ ******************************************************/
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
+
+    const userExists = await userSchema.findOne({ email })
+    if (!userExists) throw new Error("No User Exist please Signup")
+    const resetToken = randomStringGenerator();
+    console.log("Password Reset Token", resetToken)
+    userExists.forgotPasswordToken = resetToken;
+    // {validateBeforeSave: false} because of validation error
+    await userExists.save({ validateBeforeSave: false });
+
+    // setting forgotPasswordToken to undefined before sending response back
+    userExists.forgotPasswordToken = undefined
+    // sent 
+    res.status(200).json({
+        success: true,
+        message: `Password Reset Token sent to:${userExists.email}`,
+        userExists,
+    })
 })
