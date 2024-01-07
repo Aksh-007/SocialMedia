@@ -57,21 +57,50 @@ const userSchema = new mongoose.Schema(
 )
 
 
-userSchema.pre("save", async function (next) {
 
+// defining pre hooks to encrypt pasword
+userSchema.pre("save", async function (next) {
     try {
-        // defining pre hooks to encrypt pasword
         if (!this.isModified("password")) return next();
         this.password = await bcrypt.hash(this.password, 10)
 
         //  hook to encrypt emailVerificationtoken 
-        if (!this.isModified("emailVerificationToken")) return next();
-        this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
+        // if (!this.isModified("emailVerificationToken")) return next();
+        // this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
 
         // hook to encrypt forgotPasswordToken
-        if (!this.isModified("forgotPasswordToken")) return next();
-        this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
+        // if (!this.isModified("forgotPasswordToken")) return next();
+        // console.log("forgot password token", this.forgotPasswordToken)
+        // this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
 
+        next()
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+})
+
+
+//  hook to encrypt emailVerificationtoken 
+userSchema.pre("save", async function (next) {
+    try {
+        if (!this.isModified("emailVerificationToken")) return next();
+        this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
+        next()
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+})
+
+
+// for forgotToken
+userSchema.pre("save", async function (next) {
+    try {
+        // hook to encrypt forgotPasswordToken
+        if (!this.isModified("forgotPasswordToken")) return next();
+        console.log("forgot password token", this.forgotPasswordToken)
+        this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
 
         next()
     } catch (error) {
@@ -102,7 +131,15 @@ userSchema.methods = {
             throw new Error("Error while comparing Verify token ")
         }
     },
-
+    comparePasswordResetToken: async function (enteredToken) {
+        try {
+            console.log("comparePasswordResetToken", enteredToken)
+            return await bcrypt.compare(enteredToken, this.forgotPasswordToken)
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error while comparing Verify token ")
+        }
+    },
     // method to generate JWT token
     getJWTToken: async function () {
         try {
