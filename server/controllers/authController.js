@@ -22,7 +22,6 @@ export const register = asyncHandler(async (req, res) => {
 
     //  createing a random string and set it as token 
     const emailVerificationTokenPlain = crypto.randomBytes(20).toString('hex');
-    console.log('email verified token ', emailVerificationTokenPlain)
     const newUser = await userSchema.create({
         firstName,
         lastName,
@@ -122,7 +121,6 @@ export const login = asyncHandler(async (req, res) => {
     }
     if (isPasswordMatch) {
         const token = await userExist.getJWTToken()
-        console.log(token)
         userExist.password = undefined
         res.cookie('token', token, cookieOptions)
         return res.status(200).json({

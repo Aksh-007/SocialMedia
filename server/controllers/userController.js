@@ -13,8 +13,6 @@ import randomStringGenerator from "../utility/randomStringGenerator.js"
 export const verifyEmail = asyncHandler(async (req, res) => {
     const { token, userId } = req.params
 
-    console.log("Email verification token", token)
-    console.log("User ID", userId)
     const userExists = await userSchema.findById(userId)
 
     if (!userExists) throw new Error('No such User Exist please register')
@@ -55,7 +53,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     const userExists = await userSchema.findOne({ email })
     if (!userExists) throw new Error("No User Exist please Signup")
     const resetToken = randomStringGenerator();
-    console.log("Password Reset Token", resetToken)
     userExists.forgotPasswordToken = resetToken;
     // {validateBeforeSave: false} because of validation error
     await userExists.save({ validateBeforeSave: false });
@@ -91,9 +88,6 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
     const userExists = await userSchema.findById(userId);
 
-    // console.log("Entered token ", resetToken)
-    // console.log("Entered userId", userId)
-    // console.log("Db User", userExists);
     const isPasswordResetTokenMatch = await userExists.comparePasswordResetToken(resetToken);
 
 
