@@ -141,3 +141,25 @@ export const changePassword = asyncHandler(async (req, res) => {
     })
 
 })
+
+/******************************************************
+ * @GET_USER
+ * @route http://localhost:5000/api/v1/user/getUser/:userId
+ * @description gives deatils of users,
+ * @parameters userId 
+ * @returns success: User Details
+ ******************************************************/
+export const getUser = asyncHandler(async (req, res) => {
+    const { userId } = req.params
+
+    if (!userId) throw new Error("Please Pass UserID");
+
+    const userExists = await userSchema.findById(userId);
+    if (!userExists) throw new Error("No such User Exists ");
+
+    res.status(200).json({
+        success: true,
+        user: userExists,
+    })
+
+})
