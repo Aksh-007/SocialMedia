@@ -6,7 +6,7 @@ import crypto from "crypto"
 
 dotenv.config()
 
-const { JWT_SECRET, JWT_EXPIRY } = process.env
+const { JWT_SECRET, JWT_EXPIRY, BCRYPT_SALT } = process.env
 const userSchema = new mongoose.Schema(
     {
         firstName: {
@@ -85,22 +85,32 @@ userSchema.pre("save", async function (next) {
 userSchema.pre("save", async function (next) {
     try {
         if (!this.isModified("emailVerificationToken")) return next();
-        this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10)
-        next()
+
+        if (this.emailVerificationToken === null || this.emailVerificationToken === undefined) {
+            this.emailVerificationToken = undefined;
+        } else {
+            this.emailVerificationToken = await bcrypt.hash(this.emailVerificationToken, 10);
+        }
+
+        next();
     } catch (error) {
-        console.log(error)
+        console.log(error);
         next(error);
     }
-})
-
+});
 
 // for forgotToken
 userSchema.pre("save", async function (next) {
     try {
         // hook to encrypt forgotPasswordToken
         if (!this.isModified("forgotPasswordToken")) return next();
-        console.log("forgot password token", this.forgotPasswordToken)
-        this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
+
+        if (this.forgotPasswordToken === null || this.forgotPasswordToken === undefined) {
+            this.forgotPasswordToken = undefined
+        } else {
+            this.forgotPasswordToken = await bcrypt.hash(this.forgotPasswordToken, 10)
+        }
+
 
         next()
     } catch (error) {

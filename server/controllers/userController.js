@@ -22,9 +22,10 @@ export const verifyEmail = asyncHandler(async (req, res) => {
     if (!isVerifyTokenMatch) throw new Error('Invalid Verification Token')
 
     // if token match change isVerified:true ad save
-    userExists.isVerified = true
+    userExists.isVerified = true;
+
     // set it to empty 
-    userExists.emailVerificationToken = ""
+    userExists.emailVerificationToken = undefined
     await userExists.save();
 
     res.status(200).json({
@@ -94,7 +95,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     if (!isPasswordResetTokenMatch) throw new Error("Invalid Password Reset Link")
 
     userExists.password = password;
-    userExists.forgotPasswordToken = "";
+    userExists.forgotPasswordToken = undefined;
     await userExists.save({ validateBeforeSave: false })
 
     userExists.password = ""
