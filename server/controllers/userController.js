@@ -106,3 +106,38 @@ export const resetPassword = asyncHandler(async (req, res) => {
         userExists,
     })
 })
+
+
+
+/******************************************************
+ * @POST_CHANGE_PASSWORD
+ * @route http://localhost:5000/api/v1/user/change-password/:userId
+ * @description Verify the previous password,
+ * @parameters previousPassword , newPassword 
+ * @returns success Password change succesfully
+ ******************************************************/
+export const changePassword = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const { oldPassword, newPassword } = req.body;
+
+    const userExists = await userSchema.findById(userId).select("+password");
+
+    if (!userExists) throw new Error("User  does not exist");
+
+    const isPasswordMatch = await userExists.comparePassword(oldPassword)
+
+    if (!isPasswordMatch) throw new Error("Incorrect Old Password")
+
+    userExists.password = newPassword;
+
+    await userExists.save();
+
+    userExists.password = undefined;
+
+    res.status(200).json({
+        success: true,
+        message: "Password Reset Succesfully",
+        user: userExists
+    })
+
+})
