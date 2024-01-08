@@ -163,3 +163,29 @@ export const getUser = asyncHandler(async (req, res) => {
     })
 
 })
+
+
+/******************************************************
+ * @PUT_USER_UPDATE
+ * @route http://localhost:5000/api/v1/user/updateUser/:userId
+ * @description gives deatils of users,
+ * @parameters userId 
+ * @returns success: User Details
+ ******************************************************/
+export const updateUser = asyncHandler(async (req, res) => {
+    const { firstName, lastName, email, location, profileUrl, profession } = req.body
+    const { userId } = req.params
+
+    const userExists = await userSchema.findById(userId);
+    if (!userExists) throw new Error("Invalid User ");
+
+    const updatedUser = await userSchema.findByIdAndUpdate(userId, req.body);
+
+    res.status(200).json({
+        success: true,
+        message: "User Updated Sucesfully",
+        updateUser
+    })
+
+
+})
