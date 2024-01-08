@@ -154,7 +154,7 @@ export const getUser = asyncHandler(async (req, res) => {
 
     if (!userId) throw new Error("Please Pass UserID");
 
-    const userExists = await userSchema.findById(userId);
+    const userExists = await userSchema.findById(userId).populate("friends");
     if (!userExists) throw new Error("No such User Exists ");
 
     res.status(200).json({
