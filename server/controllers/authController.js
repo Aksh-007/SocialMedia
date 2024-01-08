@@ -106,7 +106,7 @@ export const login = asyncHandler(async (req, res) => {
 
     if (!userExist) throw new Error('Please Register User')
 
-    if (userExist.verified === false) throw new Error("please Verify Email")
+    if (userExist.isVerified === false) throw new Error("please Verify Email")
 
     const isPasswordMatch = await userExist.comparePassword(password)
 
