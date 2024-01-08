@@ -127,7 +127,7 @@ export const login = asyncHandler(async (req, res) => {
             success: true,
             message: "Login Sucesfully",
             token,
-            userExist
+            user: userExist
         })
     }
 

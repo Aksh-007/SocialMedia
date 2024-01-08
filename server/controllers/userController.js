@@ -31,7 +31,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: 'Email Verified Succesfully',
-        userExists
+        user: userExists
     })
 
 
@@ -68,7 +68,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: `Password Reset Token sent to:${userExists.email}`,
-        userExists,
+        user: userExists,
         forgotPasswordUrl
     })
 })
@@ -103,7 +103,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: "Password Reset Sucesfully",
-        userExists,
+        user: userExists,
     })
 })
 
@@ -114,7 +114,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
  * @route http://localhost:5000/api/v1/user/change-password/:userId
  * @description Verify the previous password,
  * @parameters previousPassword , newPassword 
- * @returns success Password change succesfully
+ * @returns success: Password change succesfully
  ******************************************************/
 export const changePassword = asyncHandler(async (req, res) => {
     const { userId } = req.params;
@@ -136,7 +136,7 @@ export const changePassword = asyncHandler(async (req, res) => {
 
     res.status(200).json({
         success: true,
-        message: "Password Reset Succesfully",
+        message: "Password Change Succesfully",
         user: userExists
     })
 
