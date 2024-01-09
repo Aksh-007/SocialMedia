@@ -226,9 +226,9 @@ export const suggestFriends = asyncHandler(async (req, res) => {
 /******************************************************
  * @POST_FRIENDS_REQUEST
  * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:rId
- * @description give list of friends Request,
+ * @description ssent friends Request to particular user,
  * @parameters userId 
- * @returns success: Suggested friends list 
+ * @returns success:  Friend Request sent  
  ******************************************************/
 export const sentfriendRequest = asyncHandler(async (req, res) => {
     const { userId, rId } = req.params;
@@ -259,4 +259,32 @@ export const sentfriendRequest = asyncHandler(async (req, res) => {
         message: "Friend Request Sent!",
         sentRequest,
     })
+})
+
+/******************************************************
+ * @GET_All_FRIENDS_REQUEST
+ * @route http://localhost:5000/api/v1/user/friendRequest/:userId
+ * @description give list of All friends Request,
+ * @parameters userId 
+ * @returns success: allfriends list 
+ ******************************************************/
+export const getAllFriendRequest = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+
+    const userExists = await userSchema.findById(userId);
+    if (!userExists) throw new Error(`User  does not exist`);
+
+    const allFriendRequest = await friendRequestSchema.find({
+        requestTo: userId,
+        requestStatus: "Pending"
+    }).populate("requestFrom", "firstName lastName email profession").limit(10).sort({ _id: -1 });
+
+    if (allFriendRequest.length === 0) throw new Error("No Friend Request");
+
+    res.status(200).json({
+        success: true,
+        message: "Friend Request Retrieved",
+        friendRequest: allFriendRequest
+    })
+
 })
