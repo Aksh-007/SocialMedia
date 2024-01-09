@@ -15,11 +15,11 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
     const userExists = await userSchema.findById(userId)
 
-    if (!userExists) throw new Error('No such User Exist please register')
+    if (!userExists) throw new Error('No such User Exist please register', 404)
 
     const isVerifyTokenMatch = await userExists.compareVerifyToken(token)
 
-    if (!isVerifyTokenMatch) throw new Error('Invalid Verification Token')
+    if (!isVerifyTokenMatch) throw new Error('Invalid Verification Token', 401)
 
     // if token match change isVerified:true ad save
     userExists.isVerified = true;
@@ -52,7 +52,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     const { email } = req.body
 
     const userExists = await userSchema.findOne({ email })
-    if (!userExists) throw new Error("No User Exist please Signup")
+    if (!userExists) throw new Error("No User Exist please Signup", 404)
     const resetToken = randomStringGenerator();
     userExists.forgotPasswordToken = resetToken;
     // {validateBeforeSave: false} because of validation error
@@ -85,14 +85,14 @@ export const resetPassword = asyncHandler(async (req, res) => {
     const { resetToken, userId } = req.params;
     const { password, confirmPassword } = req.body
 
-    if (password !== confirmPassword) throw new Error("Password and confirm password not Match")
+    if (password !== confirmPassword) throw new Error("Password and confirm password not Match", 401)
 
     const userExists = await userSchema.findById(userId);
 
     const isPasswordResetTokenMatch = await userExists.comparePasswordResetToken(resetToken);
 
 
-    if (!isPasswordResetTokenMatch) throw new Error("Invalid Password Reset Link")
+    if (!isPasswordResetTokenMatch) throw new Error("Invalid Password Reset Link", 401)
 
     userExists.password = password;
     userExists.forgotPasswordToken = undefined;
@@ -122,11 +122,11 @@ export const changePassword = asyncHandler(async (req, res) => {
 
     const userExists = await userSchema.findById(userId).select("+password");
 
-    if (!userExists) throw new Error("User  does not exist");
+    if (!userExists) throw new Error("User  does not exist", 404);
 
     const isPasswordMatch = await userExists.comparePassword(oldPassword)
 
-    if (!isPasswordMatch) throw new Error("Incorrect Old Password")
+    if (!isPasswordMatch) throw new Error("Incorrect Old Password", 401)
 
     userExists.password = newPassword;
 
@@ -152,10 +152,10 @@ export const changePassword = asyncHandler(async (req, res) => {
 export const getUser = asyncHandler(async (req, res) => {
     const { userId } = req.params
 
-    if (!userId) throw new Error("Please Pass UserID");
+    if (!userId) throw new Error("Please Pass UserID", 400);
 
     const userExists = await userSchema.findById(userId).populate("friends");
-    if (!userExists) throw new Error("No such User Exists ");
+    if (!userExists) throw new Error("No such User Exists ", 404);
 
     res.status(200).json({
         success: true,
@@ -177,7 +177,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     const { userId } = req.params
 
     const userExists = await userSchema.findById(userId);
-    if (!userExists) throw new Error("Invalid User ");
+    if (!userExists) throw new Error("Invalid User ", 404);
 
     const updatedUser = await userSchema.findByIdAndUpdate(userId, req.body);
 
@@ -225,32 +225,32 @@ export const suggestFriends = asyncHandler(async (req, res) => {
 
 /******************************************************
  * @POST_FRIENDS_REQUEST
- * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:rId
+ * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:requestedUserId
  * @description ssent friends Request to particular user,
  * @parameters userId 
  * @returns success:  Friend Request sent  
  ******************************************************/
 export const sentfriendRequest = asyncHandler(async (req, res) => {
-    const { userId, rId } = req.params;
+    const { userId, requestedUserId } = req.params;
 
     // check if already request sent to particular user
     const requestExist = await friendRequestSchema.findOne({
         requestFrom: userId,
-        requestTo: rId
+        requestTo: requestedUserId
     });
 
     if (requestExist) throw new Error("Request Already Sent!");
 
     // here checking if the requested user already sent the friends request
     const alreadyRequestExist = await friendRequestSchema.findOne({
-        requestFrom: rId,
+        requestFrom: requestedUserId,
         requestTo: userId
     })
 
-    if (alreadyRequestExist) throw new Error("User Already Request to connect");
+    if (alreadyRequestExist) throw new Error("User Already Request to connect", 208);
 
     const sentRequest = await friendRequestSchema.create({
-        requestTo: rId,
+        requestTo: requestedUserId,
         requestFrom: userId,
     })
 
@@ -272,15 +272,14 @@ export const getAllFriendRequest = asyncHandler(async (req, res) => {
     const { userId } = req.params;
 
     const userExists = await userSchema.findById(userId);
-    if (!userExists) throw new Error(`User  does not exist`);
+    if (!userExists) throw new Error(`User  does not exist`, 404);
 
     const allFriendRequest = await friendRequestSchema.find({
         requestTo: userId,
         requestStatus: "Pending"
     }).populate("requestFrom", "firstName lastName email profession").limit(10).sort({ _id: -1 });
 
-    if (allFriendRequest.length === 0) throw new Error("No Friend Request");
-
+    if (allFriendRequest.length === 0) throw new Error("No Friend Request", 200);
     res.status(200).json({
         success: true,
         message: "Friend Request Retrieved",
@@ -288,3 +287,44 @@ export const getAllFriendRequest = asyncHandler(async (req, res) => {
     })
 
 })
+
+
+//     const { userId, rId } = req.params;
+//     const { status } = req.body;
+
+//     if (!status) throw new Error("Status is required", 400);
+
+//     const requestExist = await friendRequestSchema.findById(rId);
+//     if (!requestExist) throw new Error("Request does not exist", 404);
+
+//     if (status === "Accept") {
+//         // Update friend request status
+//         requestExist.requestStatus = "Accept";
+
+//         // Add the sender of the friend request to the user's friends list
+//         const user = await userSchema.findById(userId);
+//         user.friends.push(requestExist.requestFrom._id);
+
+//         // Save changes and delete the friend request
+//         await Promise.all([requestExist.save(), requestExist.deleteOne()]);
+
+//         res.status(200).json({
+//             success: true,
+//             message: "Request accepted!",
+//             requestExist
+//         });
+//     } else if (status === "Deny") {
+//         // Delete the friend request
+//         await requestExist.deleteOne();
+
+//         res.status(200).json({
+//             success: true,
+//             message: "Request rejected"
+//         });
+//     } else {
+//         res.status(400).json({
+//             success: false,
+//             message: "Invalid status"
+//         });
+//     }
+// });
