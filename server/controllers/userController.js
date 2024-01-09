@@ -1,7 +1,7 @@
 import userSchema from "../models/user.schema.js"
+import friendRequestSchema from "../models/friendsRequest.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import randomStringGenerator from "../utility/randomStringGenerator.js"
-
 
 /******************************************************
  * @GET_VERIFYEMAIL
@@ -221,4 +221,42 @@ export const suggestFriends = asyncHandler(async (req, res) => {
         success: true,
         suggestedFriends,
     });
+})
+
+/******************************************************
+ * @POST_FRIENDS_REQUEST
+ * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:rId
+ * @description give list of friends Request,
+ * @parameters userId 
+ * @returns success: Suggested friends list 
+ ******************************************************/
+export const sentfriendRequest = asyncHandler(async (req, res) => {
+    const { userId, rId } = req.params;
+
+    // check if already request sent to particular user
+    const requestExist = await friendRequestSchema.findOne({
+        requestFrom: userId,
+        requestTo: rId
+    });
+
+    if (requestExist) throw new Error("Request Already Sent!");
+
+    // here checking if the requested user already sent the friends request
+    const alreadyRequestExist = await friendRequestSchema.findOne({
+        requestFrom: rId,
+        requestTo: userId
+    })
+
+    if (alreadyRequestExist) throw new Error("User Already Request to connect");
+
+    const sentRequest = await friendRequestSchema.create({
+        requestTo: rId,
+        requestFrom: userId,
+    })
+
+    res.status(200).json({
+        success: true,
+        message: "Friend Request Sent!",
+        sentRequest,
+    })
 })
