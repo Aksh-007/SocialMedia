@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema(
             minLength: [6, "Password should be atleast 6 digit"],
             select: false,
         },
-        location: { type: String },
+        location: {
+            city: String,
+            state: String,
+
+        },
         profileUrl: { type: String },
         profession: { type: String },
         friends: [

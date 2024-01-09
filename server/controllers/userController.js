@@ -168,8 +168,8 @@ export const getUser = asyncHandler(async (req, res) => {
 /******************************************************
  * @PUT_USER_UPDATE
  * @route http://localhost:5000/api/v1/user/updateUser/:userId
- * @description gives deatils of users,
- * @parameters userId 
+ * @description update user details,
+ * @parameters userId,firstName,lastName,email,location,profileUrl, profession 
  * @returns success: User Details
  ******************************************************/
 export const updateUser = asyncHandler(async (req, res) => {
@@ -188,4 +188,31 @@ export const updateUser = asyncHandler(async (req, res) => {
     })
 
 
+})
+
+
+/******************************************************
+ * @GET_FRIENDS_SUGGESTION
+ * @route http://localhost:5000/api/v1/user/friends-suggestion/:userId
+ * @description give list of suggested friends,
+ * @parameters userId 
+ * @returns success: Suggested friends list 
+ ******************************************************/
+export const suggestFriends = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+
+    const currentUser = await userSchema.findById(userId).populate('friends');
+    const friendIds = currentUser.friends.map(friend => friend._id);
+
+    const suggestedFriends = await userSchema
+        .find({
+            _id: { $ne: userId, $nin: friendIds },
+        })
+        .limit(15)
+        .select("firstName lastName profileUrl profession _id");
+
+    res.status(200).json({
+        success: true,
+        suggestedFriends,
+    });
 })
