@@ -201,9 +201,15 @@ export const updateUser = asyncHandler(async (req, res) => {
 export const suggestFriends = asyncHandler(async (req, res) => {
     const { userId } = req.params;
 
+    // here getting the current user details
     const currentUser = await userSchema.findById(userId).populate('friends');
+
+    // here extracting ID's of friends 
     const friendIds = currentUser.friends.map(friend => friend._id);
 
+    // here we are suggesting friends basis of
+    // $ne: not equal = This operator is used to select documents where the value of a field is not equal to a specified value.  
+    // $nin : not in = This operator is used to select documents where the value of a field is not in a specified array.
     const suggestedFriends = await userSchema
         .find({
             _id: { $ne: userId, $nin: friendIds },
