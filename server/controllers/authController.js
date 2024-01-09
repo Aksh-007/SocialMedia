@@ -98,13 +98,13 @@ export const register = asyncHandler(async (req, res) => {
  ******************************************************/
 export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    if (!email) throw new Error('Please Fill Email Field');
-    if (!password) throw new Error('Please Fill password Field');
+    if (!email) throw new Error('Please Fill Email Field', 400);
+    if (!password) throw new Error('Please Fill password Field', 400);
 
     // here please select password otherwise no password selected
     const userExist = await userSchema.findOne({ email }).select("+password")
 
-    if (!userExist) throw new Error('Please Register User')
+    if (!userExist) throw new Error('Please Register User', 404)
 
     if (userExist.isVerified === false) throw new Error("please Verify Email")
 
