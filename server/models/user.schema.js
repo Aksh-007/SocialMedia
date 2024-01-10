@@ -37,7 +37,10 @@ const userSchema = new mongoose.Schema(
             state: String,
 
         },
-        profileUrl: { type: String },
+        profileUrl: {
+            type: String,
+            default: "https://avatars.githubusercontent.com/u/75266804?v=4"
+        },
         profession: { type: String },
         friends: [
             {

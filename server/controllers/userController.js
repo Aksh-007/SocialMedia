@@ -288,7 +288,45 @@ export const getAllFriendRequest = asyncHandler(async (req, res) => {
 
 })
 
+/******************************************************
+ * @POST_ACCEPT_FRIENDS_REQUEST
+ * @route http://localhost:5000/api/v1/user/acceptFriendRequest/:userId/:requestedId
+ * @description Accept a friend request ,
+ * @parameters userId 
+ * @returns success: friend added to rquest
+ ******************************************************/
+export const acceptFriendRequest = asyncHandler(async (req, res) => {
+    const { userId, requestedId } = req.params;
+    const { status } = req.body
 
+    if (!status) throw new Error("Status is required", 400);
+
+    const requestExist = await friendRequestSchema.findById(requestedId);
+    if (!requestExist) throw new Error("Request does not exist", 404);
+
+    if (status === "Accept") {
+        requestExist.requestStatus = "Accept"
+        // add this requestedId user into the user friends list
+        const user = await userSchema.findById(userId);
+        user.friends.push(requestExist.requestFrom._id)
+        await requestExist.save();
+        await user.save();
+        await requestExist.deleteOne();
+        res.status(200).json({
+            success: true,
+            message: "Request accepted!",
+            requestExist
+        })
+    } else if (status === "Deny") {
+        await requestExist.deleteOne()
+        res.status(200).json({
+            success: true,
+            message: "Request rejected"
+        })
+    }
+})
+
+// export const acceptFriendRequest = asyncHandler(async (req, res) => {
 //     const { userId, rId } = req.params;
 //     const { status } = req.body;
 
