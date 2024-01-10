@@ -227,12 +227,21 @@ export const suggestFriends = asyncHandler(async (req, res) => {
 /******************************************************
  * @POST_FRIENDS_REQUEST
  * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:requestedUserId
- * @description ssent friends Request to particular user,
+ * @description sent friends from:userId to:requestedUserId,
  * @parameters userId 
  * @returns success:  Friend Request sent  
  ******************************************************/
 export const sentfriendRequest = asyncHandler(async (req, res) => {
     const { userId, requestedUserId } = req.params;
+
+    // checking if requested user already friend
+    const user = await userSchema.findById(userId);
+    if (!user) throw { message: "No Such User Exist", code: 404 };
+    if (user.friends.includes(requestedUserId)) throw { message: "User already friend", code: 400 };
+
+    const requestedUser = await userSchema.findById(requestedUserId);
+    if (!user) throw { message: "No Such User Exist", code: 404 };
+    if (requestedUser.friends.includes(userId)) throw { message: "User already friend", code: 400 };
 
     // check if already request sent to particular user
     const requestExist = await friendRequestSchema.findOne({
@@ -292,7 +301,7 @@ export const getAllFriendRequest = asyncHandler(async (req, res) => {
 /******************************************************
  * @POST_ACCEPT_FRIENDS_REQUEST
  * @route http://localhost:5000/api/v1/user/acceptFriendRequest/:userId/:requestedId
- * @description Accept a friend request ,
+ * @description Accept a friend request ie to:userId and requestedid:requestedId,
  * @parameters userId 
  * @returns success: friend added to rquest
  ******************************************************/
@@ -307,11 +316,16 @@ export const acceptFriendRequest = asyncHandler(async (req, res) => {
 
     if (status === "Accept") {
         requestExist.requestStatus = "Accept"
-        // add this requestedId user into the user friends list
+        // add the requested user into the user friends list
         const user = await userSchema.findById(userId);
         user.friends.push(requestExist.requestFrom._id)
-        await requestExist.save();
         await user.save();
+
+        // add the requestfrom user into the userList
+        const userfrom = await userSchema.findById(requestExist.requestFrom._id)
+        userfrom.friends.push(user._id)
+        await userfrom.save();
+
         await requestExist.deleteOne();
         res.status(200).json({
             success: true,
