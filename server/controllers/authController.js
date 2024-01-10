@@ -1,5 +1,6 @@
 import userSchema from "../models/user.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
+import CustomError from "../utility/customError.js"
 import crypto from "crypto"
 
 
@@ -14,11 +15,11 @@ export const register = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body
 
     if (!(firstName || lastName || email || password)) {
-        throw new Error("Please provide all the fields", 400)
+        throw new CustomError("Please provide all the fields", 400)
     }
 
     const userExists = await userSchema.findOne({ email })
-    if (userExists) throw new Error("User Already Exists Please Login", 400)
+    if (userExists) throw new CustomError("User Already Exists Please Login", 400)
 
     //  createing a random string and set it as token 
     const emailVerificationTokenPlain = crypto.randomBytes(20).toString('hex');
@@ -83,7 +84,7 @@ export const register = asyncHandler(async (req, res) => {
     //     //roll back - clear fields and save
     //     userSchema.emailVerificationToken = undefined
     //     await userSchema.save({ validateBeforeSave: false })
-    //     throw new Error(err.message || 'Email sent failure', 500)
+    //     throw new CustomError(err.message || 'Email sent failure', 500)
     // }
 
 })
@@ -98,19 +99,19 @@ export const register = asyncHandler(async (req, res) => {
  ******************************************************/
 export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    if (!email) throw new Error('Please Fill Email Field', 400);
-    if (!password) throw new Error('Please Fill password Field', 400);
+    if (!email) throw new CustomError('Please Fill Email Field', 400);
+    if (!password) throw new CustomError('Please Fill password Field', 400);
 
     // here please select password otherwise no password selected
     const userExist = await userSchema.findOne({ email }).select("+password")
 
-    if (!userExist) throw new Error('Please Register User', 404)
+    if (!userExist) throw new CustomError('Please Register User', 404)
 
-    if (userExist.isVerified === false) throw new Error("please Verify Email")
+    if (userExist.isVerified === false) throw new CustomError("please Verify Email", 401)
 
     const isPasswordMatch = await userExist.comparePassword(password)
 
-    if (!isPasswordMatch) throw new Error("Invalid Password")
+    if (!isPasswordMatch) throw new CustomError("Invalid Password", 401)
     // cookies options
     const cookieOptions = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
