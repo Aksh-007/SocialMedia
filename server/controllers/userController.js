@@ -3,7 +3,7 @@ import friendRequestSchema from "../models/friendsRequest.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import randomStringGenerator from "../utility/randomStringGenerator.js"
 import CustomError from "../utility/customError.js"
-
+import mailHelper from "../utility/mailHelper.js"
 
 /******************************************************
  * @GET_VERIFYEMAIL
@@ -67,12 +67,39 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     const forgotPasswordUrl =
         `${req.protocol}://${req.get("host")}/api/v1/user/reset-password/${userExists._id}/${resetToken}`
 
-    res.status(200).json({
-        success: true,
-        message: `Password Reset Token sent to:${userExists.email}`,
-        user: userExists,
-        forgotPasswordUrl
-    })
+
+    const html = `<p style="font-family: Arial, sans-serif; font-size: 16px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;">
+        Password reset link. Please click the link below to reset password.
+        <br>
+            <br>
+                <a href=${forgotPasswordUrl} style="color: #fff; padding: 10px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px; ">Reset Password</a>.
+            </p>`
+
+    // sending token to mail
+    try {
+        await mailHelper({
+            email: userExists.email,
+            subject: "Password reset email for website",
+            html: html,
+        })
+        res.status(200).json({
+            success: true,
+            message: `Reset Password Link has been sent to ${userExists.email}`,
+            forgotPasswordUrl
+        })
+
+    } catch (err) {
+        //roll back - clear fields and save
+        await userSchema.findByIdAndDelete(userExists._id)
+
+        throw new CustomError(err.message || 'Email sent failure', 500)
+    }
+    // res.status(200).json({
+    //     success: true,
+    //     message: `Password Reset Token sent to:${userExists.email}`,
+    //     user: userExists,
+    //     forgotPasswordUrl
+    // })
 })
 
 
