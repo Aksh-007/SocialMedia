@@ -232,7 +232,7 @@ export const suggestFriends = asyncHandler(async (req, res) => {
 
     // here getting the current user details
     const currentUser = await userSchema.findById(userId).populate('friends');
-
+    if (!currentUser) throw new CustomError('No such User Exists!')
     // here extracting ID's of friends 
     const friendIds = currentUser.friends.map(friend => friend._id);
 
