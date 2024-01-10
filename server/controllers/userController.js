@@ -217,6 +217,7 @@ export const suggestFriends = asyncHandler(async (req, res) => {
         .limit(15)
         .select("firstName lastName profileUrl profession _id");
 
+    if (suggestedFriends.length === 0) throw new Error("No Friend To suggest ", 200);
     res.status(200).json({
         success: true,
         suggestedFriends,
@@ -239,7 +240,7 @@ export const sentfriendRequest = asyncHandler(async (req, res) => {
         requestTo: requestedUserId
     });
 
-    if (requestExist) throw new Error("Request Already Sent!");
+    if (requestExist) throw new Error("Request Already Sent!", 404,);
 
     // here checking if the requested user already sent the friends request
     const alreadyRequestExist = await friendRequestSchema.findOne({
@@ -325,44 +326,3 @@ export const acceptFriendRequest = asyncHandler(async (req, res) => {
         })
     }
 })
-
-// export const acceptFriendRequest = asyncHandler(async (req, res) => {
-//     const { userId, rId } = req.params;
-//     const { status } = req.body;
-
-//     if (!status) throw new Error("Status is required", 400);
-
-//     const requestExist = await friendRequestSchema.findById(rId);
-//     if (!requestExist) throw new Error("Request does not exist", 404);
-
-//     if (status === "Accept") {
-//         // Update friend request status
-//         requestExist.requestStatus = "Accept";
-
-//         // Add the sender of the friend request to the user's friends list
-//         const user = await userSchema.findById(userId);
-//         user.friends.push(requestExist.requestFrom._id);
-
-//         // Save changes and delete the friend request
-//         await Promise.all([requestExist.save(), requestExist.deleteOne()]);
-
-//         res.status(200).json({
-//             success: true,
-//             message: "Request accepted!",
-//             requestExist
-//         });
-//     } else if (status === "Deny") {
-//         // Delete the friend request
-//         await requestExist.deleteOne();
-
-//         res.status(200).json({
-//             success: true,
-//             message: "Request rejected"
-//         });
-//     } else {
-//         res.status(400).json({
-//             success: false,
-//             message: "Invalid status"
-//         });
-//     }
-// });
