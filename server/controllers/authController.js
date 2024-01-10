@@ -2,7 +2,7 @@ import userSchema from "../models/user.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import CustomError from "../utility/customError.js"
 import crypto from "crypto"
-
+import mailHelper from "../utility/mailHelper.js"
 
 /******************************************************
  * @POST_REGISTER
@@ -37,55 +37,44 @@ export const register = asyncHandler(async (req, res) => {
     //  here dont want to share token and password 
     newUser.password = undefined
     newUser.emailVerificationToken = undefined
-
-
-    res.status(200).json({
-        success: true,
-        message: `User Registerd successfully Verification email sent to:${newUser.email}`,
-        newUser,
-        verifyUrl,
-    })
-
-    // const verifyUrl =
-    //     `${req.protocol}://${req.get("host")}/api/auth/password/verify/${emailVerificationToken}`
-    // console.log("verifyUrl is", verifyUrl)
-    // const html = `<div>
-    // style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
-    // <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
-    // <hr>
-    // <h4>Hi ${firstName}${lastName},</h4>
-    // <p>
-    //     Please verify your email address so we can know that it's really you.
-    //     <br>
-    // <p>This link <b>expires in 1 hour</b></p>
-    // <br>
-    // <a href=${verifyUrl}
-    //     style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
-    //     Email Address</a>
-    // </p>
-    // <div style="margin-top: 20px;">
-    //     <h5>Best Regards</h5>
-    //     <h5>ShareFun Team</h5>
-    // </div>
-    //             </div>`
+    const html = `<div
+    style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
+    <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
+    <hr>
+    <h4>Hi ${newUser.firstName}${newUser.lastName},</h4>
+    <p>
+        Please verify your email address so we can know that it's really you.
+        <br>
+    <br>
+    <a href=${verifyUrl}
+        style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
+        Email Address</a>
+    </p>
+    <div style="margin-top: 20px;">
+        <h5>Best Regards</h5>
+        <h5>Linkleap Team</h5>
+    </div>
+    </div>`
 
     // sending token to mail
-    // try {
-    //     await mailHelper({
-    //         email: newUser.email,
-    //         subject: "Password reset email for website",
-    //         html: html,
-    //     })
-    //     res.status(200).json({
-    //         success: true,
-    //         message: `Email send to ${newUser.email}`
-    //     })
-    // } catch (err) {
-    //     //roll back - clear fields and save
-    //     userSchema.emailVerificationToken = undefined
-    //     await userSchema.save({ validateBeforeSave: false })
-    //     throw new CustomError(err.message || 'Email sent failure', 500)
-    // }
+    try {
+        await mailHelper({
+            email: newUser.email,
+            subject: "Password reset email for website",
+            html: html,
+        })
+        res.status(200).json({
+            success: true,
+            message: `User Registerd successfully please verify email`,
+            verifyUrl
+        })
+
+    } catch (err) {
+        //roll back - clear fields and save
+        await userSchema.findByIdAndDelete(newUser._id)
+
+        throw new CustomError(err.message || 'Email sent failure', 500)
+    }
 
 })
 
