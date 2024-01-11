@@ -4,7 +4,7 @@ import multer from "multer";
 //the first function enables developers to have control on storing files to disk
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "upload");
+        cb(null, "./public/temp");
     },
     filename: function (req, file, cb) {
         cb(null, new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname);

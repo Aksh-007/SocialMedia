@@ -1,8 +1,8 @@
 import postSchema from "../models/post.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import CustomError from "../utility/customError.js"
-import cloudinary from "../utility/imageHelper.js"
-import fs from 'fs';
+import uploadImage from "../utility/imageUpload.js"
+
 
 
 /******************************************************
@@ -20,19 +20,7 @@ export const createPost = asyncHandler(async (req, res) => {
     if (!description) throw new CustomError("Please Provide description", 400);
 
     // uploading image in cloudinary
-    const imageUrl = await cloudinary.uploader.upload(
-        req.file.path,
-        { folder: "post", resource_type: "image" },
-    );
-    console.log("imageUrl secure_url =", imageUrl.secure_url)
-    // Delete the uploaded file from the local storage (upload folder)
-    fs.unlink(req.file.path, (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('File deleted successfully!');
-        }
-    });
+    const imageUrl = await uploadImage(req.file.path);
     const newPost = await postSchema.create({
         userId,
         description,
