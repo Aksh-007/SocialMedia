@@ -19,6 +19,9 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
     if (!userExists) throw new CustomError('No such User Exist please register', 404)
 
+
+    if (userExists.isVerified === true) throw new CustomError('User Already verified!', 404)
+
     const isVerifyTokenMatch = await userExists.compareVerifyToken(token)
 
     if (!isVerifyTokenMatch) throw new CustomError('Invalid Verification Token', 401)
