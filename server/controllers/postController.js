@@ -2,6 +2,9 @@ import postSchema from "../models/post.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import CustomError from "../utility/customError.js"
 import cloudinary from "../utility/imageHelper.js"
+import fs from 'fs';
+
+
 /******************************************************
  * @POST_CREATE_POST
  * @route http://localhost:5000/api/v1/post/createPost/userId
@@ -18,9 +21,18 @@ export const createPost = asyncHandler(async (req, res) => {
 
     // uploading image in cloudinary
     const imageUrl = await cloudinary.uploader.upload(
-        req.file.path
+        req.file.path,
+        { folder: "post", resource_type: "image" },
     );
     console.log("imageUrl secure_url =", imageUrl.secure_url)
+    // Delete the uploaded file from the local storage (upload folder)
+    fs.unlink(req.file.path, (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('File deleted successfully!');
+        }
+    });
     const newPost = await postSchema.create({
         userId,
         description,
