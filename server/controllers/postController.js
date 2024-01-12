@@ -35,3 +35,24 @@ export const createPost = asyncHandler(async (req, res) => {
 
 })
 
+/******************************************************
+ * @GET_ALL_POST
+ * @route http://localhost:5000/api/v1/post/getAllPost
+ * @description it will give recent 10 post
+ * @parameters 
+ * @returns 1 recent post
+ ******************************************************/
+export const getAllPost = asyncHandler(async (req, res) => {
+
+    // here sort function giving descending to ascending post
+    // i.e recent post first 
+    const allPost = await postSchema.find().sort({ _id: -1 }).limit(10)
+
+    res.status(200).json({
+        success: true,
+        message: "Post Retrieved",
+        allPost
+    })
+})
+
+
