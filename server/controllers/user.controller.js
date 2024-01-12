@@ -186,7 +186,16 @@ export const getUser = asyncHandler(async (req, res) => {
 
     if (!userId) throw new CustomError("Please Pass UserID", 400);
 
-    const userExists = await userSchema.findById(userId).populate("friends");
+    const userExists = await userSchema.findById(userId).populate({
+        path: "friends",
+        select: "firstName lastName email location profileUrl profession"
+        // populate: {
+        //     path: "friends",
+        //     populate: {
+        //         path: "friends",
+        //     }
+        // }
+    });
     if (!userExists) throw new CustomError("No such User Exists ", 404);
 
     res.status(200).json({
