@@ -1,4 +1,5 @@
 import postSchema from "../models/post.schema.js"
+import commentSchema from "../models/comment.schema.js"
 import asyncHandler from "../utility/asyncHandler.js"
 import CustomError from "../utility/customError.js"
 import uploadImage from "../utility/imageUpload.js"
@@ -66,7 +67,17 @@ export const getPostById = asyncHandler(async (req, res) => {
     const { postId } = req.params;
     if (!postId) throw new CustomError("Post Id Is Required");
 
-    const post = await postSchema.findById(postId).populate("userId", "firstName lastName email location profileUrl profession");
+    const post = await postSchema
+        .findById(postId)
+        .populate("userId", "firstName lastName email location profileUrl profession")
+        .populate({
+            path: "comments",
+            populate: {
+                path: "userId",
+                select: "firstName lastName email location profileUrl profession"
+            }
+        })
+
     if (!post) throw new CustomError("No such Post Exist!");
 
     res.status(200).json({
