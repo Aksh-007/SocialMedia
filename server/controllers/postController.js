@@ -62,11 +62,11 @@ export const getAllPost = asyncHandler(async (req, res) => {
  * @parameters postId
  * @returns  post realeted to postId
  ******************************************************/
-export const getPost = asyncHandler(async (req, res) => {
+export const getPostById = asyncHandler(async (req, res) => {
     const { postId } = req.params;
     if (!postId) throw new CustomError("Post Id Is Required");
 
-    const post = await postSchema.findById(postId);
+    const post = await postSchema.findById(postId).populate("userId", "firstName lastName email location profileUrl profession");
     if (!post) throw new CustomError("No such Post Exist!");
 
     res.status(200).json({
