@@ -1,5 +1,5 @@
 import express from "express";
-import { createPost, deletePost, getAllPost, getPostById, getUserPost, postComment } from "../controllers/postController.js";
+import { createPost, deletePost, getAllPost, getPostById, getUserPost, postComment } from "../controllers/post.controller.js";
 import { upload } from "../middleware/multer.middleware.js"
 const postRouter = express.Router();
 

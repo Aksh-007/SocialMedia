@@ -1,5 +1,5 @@
 import express from "express"
-import { forgotPassword, verifyEmail, resetPassword, changePassword, getUser, updateUser, suggestFriends, sentfriendRequest, getAllFriendRequest, acceptFriendRequest } from "../controllers/userController.js"
+import { forgotPassword, verifyEmail, resetPassword, changePassword, getUser, updateUser, suggestFriends, sentfriendRequest, getAllFriendRequest, acceptFriendRequest } from "../controllers/user.controller.js"
 
 const userRouter = express.Router()
 
