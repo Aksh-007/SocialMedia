@@ -110,6 +110,39 @@ export const getUserPost = asyncHandler(async (req, res) => {
     })
 })
 
+/******************************************************
+ * @POST_COMMENT
+ * @route http://localhost:5000/api/v1/post/postComment/:userId/:postId
+ * @description it will give 10 recent post of User 
+ * @parameters userId
+ * @returns  10 recent post of user
+ ******************************************************/
+export const postComment = asyncHandler(async (req, res) => {
+    const { userId, postId } = req.params
+    const { comment } = req.body
+
+    if (!comment) throw new CustomError("Comment is required");
+
+    // finding post 
+    const existingPost = await postSchema.findById(postId);
+    if (!existingPost) throw new CustomError("No such Post Exist")
+
+    const newComment = await commentSchema.create({
+        userId,
+        postId,
+        comment
+    })
+
+    // push comment into post schema
+    existingPost.comments.push(newComment._id);
+    await existingPost.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Comment Added successfully",
+        newComment
+    })
+})
 
 
 
