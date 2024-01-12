@@ -7,5 +7,6 @@ postRouter.post("/createPost/:userId", upload.single("file"), createPost);
 
 postRouter.get("/getAllPost", getAllPost);
 postRouter.get("/getPost/:postId", getPostById);
+postRouter.get("/getuserPost/:userId", getUserPost);
 
 export default postRouter;

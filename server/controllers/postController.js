@@ -77,4 +77,28 @@ export const getPostById = asyncHandler(async (req, res) => {
 })
 
 
+/******************************************************
+ * @GET_USER_POST
+ * @route http://localhost:5000/api/v1/post/getuserPost/:userId
+ * @description it will give 10 recent post of User 
+ * @parameters userId
+ * @returns  10 recent post of user
+ ******************************************************/
+export const getUserPost = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    if (!userId) throw new CustomError("Please Provide User Id!");
+
+    const userPosts = await postSchema.find({ userId }).sort({ _id: -1 }).limit(10);
+
+    if (userPosts.length === 0) throw new CustomError("No Post Added by User")
+
+    res.status(200).json({
+        success: true,
+        message: "All User Post",
+        userPosts
+    })
+})
+
+
+
 
