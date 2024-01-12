@@ -87,6 +87,28 @@ export const getPostById = asyncHandler(async (req, res) => {
     })
 })
 
+/******************************************************
+ * @DELETE_POST
+ * @route http://localhost:5000/api/v1/post/deletePost/:userId/:postId
+ * @description the specific user can delete the post  
+ * @parameters userID andpostId
+ * @returns  delete post 
+ ******************************************************/
+export const deletePost = asyncHandler(async (req, res) => {
+    const { userId, postId } = req.params;
+    const postExist = await postSchema.findById(postId);
+
+    if (!postExist) throw new CustomError("No such post Exist!",404);
+
+    if (userId !== postExist.userId) throw new CustomError("Not Authorize to delete", 401)
+
+    await postSchema.findByIdAndDelete(postId);
+
+    res.status(200).json({
+        success: true,
+        message: "Post deleted successfully!"
+    })
+})
 
 /******************************************************
  * @GET_USER_POST
@@ -97,11 +119,11 @@ export const getPostById = asyncHandler(async (req, res) => {
  ******************************************************/
 export const getUserPost = asyncHandler(async (req, res) => {
     const { userId } = req.params;
-    if (!userId) throw new CustomError("Please Provide User Id!");
+    if (!userId) throw new CustomError("Please Provide User Id!",404);
 
     const userPosts = await postSchema.find({ userId }).sort({ _id: -1 }).limit(10);
 
-    if (userPosts.length === 0) throw new CustomError("No Post Added by User")
+    if (userPosts.length === 0) throw new CustomError("No Post Added by User",200)
 
     res.status(200).json({
         success: true,
@@ -121,7 +143,7 @@ export const postComment = asyncHandler(async (req, res) => {
     const { userId, postId } = req.params
     const { comment } = req.body
 
-    if (!comment) throw new CustomError("Comment is required");
+    if (!comment) throw new CustomError("Comment is required",400);
 
     // finding post 
     const existingPost = await postSchema.findById(postId);
