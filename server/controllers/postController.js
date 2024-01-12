@@ -98,9 +98,10 @@ export const deletePost = asyncHandler(async (req, res) => {
     const { userId, postId } = req.params;
     const postExist = await postSchema.findById(postId);
 
-    if (!postExist) throw new CustomError("No such post Exist!",404);
+    if (!postExist) throw new CustomError("No such post Exist!", 404);
 
-    if (userId !== postExist.userId) throw new CustomError("Not Authorize to delete", 401)
+    console.log("Post details -", postExist)
+    if (postExist.userId.toString() !== userId) throw new CustomError("Not Authorize to delete", 401)
 
     await postSchema.findByIdAndDelete(postId);
 
@@ -119,11 +120,11 @@ export const deletePost = asyncHandler(async (req, res) => {
  ******************************************************/
 export const getUserPost = asyncHandler(async (req, res) => {
     const { userId } = req.params;
-    if (!userId) throw new CustomError("Please Provide User Id!",404);
+    if (!userId) throw new CustomError("Please Provide User Id!", 404);
 
     const userPosts = await postSchema.find({ userId }).sort({ _id: -1 }).limit(10);
 
-    if (userPosts.length === 0) throw new CustomError("No Post Added by User",200)
+    if (userPosts.length === 0) throw new CustomError("No Post Added by User", 200)
 
     res.status(200).json({
         success: true,
@@ -143,7 +144,7 @@ export const postComment = asyncHandler(async (req, res) => {
     const { userId, postId } = req.params
     const { comment } = req.body
 
-    if (!comment) throw new CustomError("Comment is required",400);
+    if (!comment) throw new CustomError("Comment is required", 400);
 
     // finding post 
     const existingPost = await postSchema.findById(postId);
