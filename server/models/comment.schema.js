@@ -15,10 +15,10 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: [true, "Comments is required"]
         },
-        from: {
-            type: String,
-            required: [true, "Who commented is required"]
-        },
+        // from: {
+        //     type: String,
+        //     required: [true, "Who commented is required"]
+        // },
         replies: [
             {
                 rid: {
