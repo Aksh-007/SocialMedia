@@ -167,5 +167,42 @@ export const postComment = asyncHandler(async (req, res) => {
     })
 })
 
+/******************************************************
+ * @POST_LIKE_COMMENT
+ * @route http://localhost:5000/api/v1/post/likeComment/:userId/:commentId
+ * @description it will like the comments 
+ * @parameters userId and commentID
+ * @returns  comment like
+ ******************************************************/
+export const likeComment = asyncHandler(async (req, res) => {
+    const { userId, commentId } = req.params
+    if (!(userId || commentId)) throw new CustomError("Please pass comment and post Id", 400)
+
+
+
+    const commentExist = await commentSchema.findById(commentId)
+    // .populate({
+    //     path: "userId",
+    //     select: "firstName lastName email location profileUrl profession"
+    // })
+    // .populate({
+    //         path: "postId",
+    //         select: "image descrption createdAt updatedAt likes comments"
+    //     });
+
+    if (!commentExist) throw new CustomError("No Comment Exists", 404);
+
+    // handling if already like the comment 
+    if (!commentExist.likes.map(id => id === userId)) {
+        commentExist.likes.push(userId);
+    }
+    await commentExist.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Comment Liked",
+        commentExist
+    })
+})
 
 
