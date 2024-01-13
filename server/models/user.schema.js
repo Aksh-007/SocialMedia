@@ -49,7 +49,10 @@ const userSchema = new mongoose.Schema(
             }
         ],
         views: [
-            { type: String }
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
         ],
         isVerified: {
             type: Boolean,

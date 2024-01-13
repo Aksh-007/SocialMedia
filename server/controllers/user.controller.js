@@ -176,27 +176,35 @@ export const changePassword = asyncHandler(async (req, res) => {
 
 /******************************************************
  * @GET_USER
- * @route http://localhost:5000/api/v1/user/getUser/:userId
+ * @route http://localhost:5000/api/v1/user/getUserById/:currentUserId/:userId
  * @description gives deatils of users,
  * @parameters userId 
  * @returns success: User Details
  ******************************************************/
-export const getUser = asyncHandler(async (req, res) => {
-    const { userId } = req.params
+export const getUserById = asyncHandler(async (req, res) => {
+    const { currentUserId, userId } = req.params
 
     if (!userId) throw new CustomError("Please Pass UserID", 400);
 
     const userExists = await userSchema.findById(userId).populate({
         path: "friends",
+        select: "firstName lastName email location profileUrl profession",
+    }).populate({
+        path: "views",
         select: "firstName lastName email location profileUrl profession"
-        // populate: {
-        //     path: "friends",
-        //     populate: {
-        //         path: "friends",
-        //     }
-        // }
     });
+
     if (!userExists) throw new CustomError("No such User Exists ", 404);
+
+    // added view functionality
+    if (currentUserId !== userId) {
+        // this is code is for removing same user
+        // if (!userExists.views.some(view => view._id.equals(currentUserId))) {
+        //     userExists.views.push({ currentUserId });
+        // }
+        userExists.views.push({ _id: currentUserId });
+    }
+    await userExists.save();
 
     res.status(200).json({
         success: true,
