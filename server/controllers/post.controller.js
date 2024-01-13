@@ -16,17 +16,17 @@ import uploadImage from "../utility/imageUpload.js"
 export const createPost = asyncHandler(async (req, res) => {
     const { userId } = req.params;
     const { description } = req.body;
-    const image = req.file;
 
     if (!description) throw new CustomError("Please Provide description", 400);
+    const post = { userId, description };
 
-    // uploading image in cloudinary
-    const imageUrl = await uploadImage(req.file.path);
-    const newPost = await postSchema.create({
-        userId,
-        description,
-        image: imageUrl.secure_url
-    })
+    if (req.file && req.file.path) {
+        // uploading image in cloudinary
+        const imageUrl = await uploadImage(req.file.path);
+        post.image = imageUrl.secure_url
+    }
+
+    const newPost = await postSchema.create(post)
 
     res.status(200).json({
         success: true,
