@@ -204,8 +204,6 @@ export const likeComment = asyncHandler(async (req, res) => {
     const { userId, commentId } = req.params
     if (!(userId || commentId)) throw new CustomError("Please pass comment and post Id", 400)
 
-
-
     const commentExist = await commentSchema.findById(commentId)
     // .populate({
     //     path: "userId",
@@ -239,29 +237,6 @@ export const likeComment = asyncHandler(async (req, res) => {
  * @parameters userId and commentID
  * @returns  comment unlike
  ******************************************************/
-// export const unlikeComment = asyncHandler(async (req, res) => {
-//     const { userId, commentId } = req.params;
-//     if (!(userId || commentId)) throw new CustomError("Please pass comment and post Id", 400);
-
-//     const commentExist = await commentSchema.findById(commentId)
-//     if (!commentExist) throw new CustomError("No Comment Exists", 404);
-
-//     // handling if already like the comment 
-//     if (commentExist.likes.map(id => id === userId)) {
-//         throw new CustomError("No like on this comment")
-//     }
-//     // removing the userId from comment
-//     removedLike = commentExist.likes.filter(likedUserId => likedUserId !== userIdToRemove);
-
-//     await commentExist.save();
-
-//     res.status(200).json({
-//         success: true,
-//         message: "Comment Liked",
-//         commentExist
-//     })
-// })
-
 export const unlikeComment = asyncHandler(async (req, res) => {
     const { userId, commentId } = req.params;
     if (!userId || !commentId) {
