@@ -168,6 +168,32 @@ export const postComment = asyncHandler(async (req, res) => {
 })
 
 /******************************************************
+ * @DELETE_COMMENT
+ * @route http://localhost:5000/api/v1/post/deleteComment/:userId/:commentId
+ * @description it will delete the specific comment 
+ * @parameters userId,commentId
+ * @returns  delete the comment 
+ ******************************************************/
+export const deleteComment = asyncHandler(async (req, res) => {
+    const { userId, commentId } = req.params
+
+    if (!(userId || commentId)) throw new CustomError("Provide user and Comment ID!", 400)
+
+    const existingComment = await commentSchema.findById(commentId);
+    if (!existingComment) throw new CustomError("No Comment Exists");
+
+    if (existingComment.userId.toString() !== userId) throw new CustomError("Not Authorize to delete", 401);
+
+    await commentSchema.findByIdAndDelete(commentId);
+
+    res.status(200).json({
+        success: true,
+        message: "Comment deleted successfully",
+        existingComment
+    })
+})
+
+/******************************************************
  * @POST_LIKE_COMMENT
  * @route http://localhost:5000/api/v1/post/likeComment/:userId/:commentId
  * @description it will like the comments 
