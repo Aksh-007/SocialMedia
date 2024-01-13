@@ -219,9 +219,10 @@ export const likeComment = asyncHandler(async (req, res) => {
     if (!commentExist) throw new CustomError("No Comment Exists", 404);
 
     // handling if already like the comment 
-    if (!commentExist.likes.map(id => id === userId)) {
-        commentExist.likes.push(userId);
+    if (commentExist.likes.includes(userId)) {
+        throw new CustomError("Already liked the Comment!", 404)
     }
+    commentExist.likes.push(userId);
     await commentExist.save();
 
     res.status(200).json({
@@ -231,4 +232,62 @@ export const likeComment = asyncHandler(async (req, res) => {
     })
 })
 
+/******************************************************
+ * @POST_UNLIKE_COMMENT
+ * @route http://localhost:5000/api/v1/post/unlikeComment/:userId/:commentId
+ * @description it will unlike the comments 
+ * @parameters userId and commentID
+ * @returns  comment unlike
+ ******************************************************/
+// export const unlikeComment = asyncHandler(async (req, res) => {
+//     const { userId, commentId } = req.params;
+//     if (!(userId || commentId)) throw new CustomError("Please pass comment and post Id", 400);
 
+//     const commentExist = await commentSchema.findById(commentId)
+//     if (!commentExist) throw new CustomError("No Comment Exists", 404);
+
+//     // handling if already like the comment 
+//     if (commentExist.likes.map(id => id === userId)) {
+//         throw new CustomError("No like on this comment")
+//     }
+//     // removing the userId from comment
+//     removedLike = commentExist.likes.filter(likedUserId => likedUserId !== userIdToRemove);
+
+//     await commentExist.save();
+
+//     res.status(200).json({
+//         success: true,
+//         message: "Comment Liked",
+//         commentExist
+//     })
+// })
+
+export const unlikeComment = asyncHandler(async (req, res) => {
+    const { userId, commentId } = req.params;
+    if (!userId || !commentId) {
+        throw new CustomError("Please pass both userId and commentId", 400);
+    }
+
+    const commentExist = await commentSchema.findById(commentId);
+    if (!commentExist) {
+        throw new CustomError("No Comment Exists", 404);
+    }
+
+    // Check if the user has already liked the comment
+    const hasLiked = commentExist.likes.includes(userId);
+    if (!hasLiked) {
+        throw new CustomError("No like on this comment");
+    }
+
+    // Remove the userId from the comment's likes
+    commentExist.likes = commentExist.likes.filter(likedUserId => likedUserId !== userId);
+
+    // Save the updated comment to the database
+    await commentExist.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Comment Unliked",
+        commentExist,
+    });
+});
