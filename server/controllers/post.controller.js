@@ -65,7 +65,7 @@ export const getAllPost = asyncHandler(async (req, res) => {
  ******************************************************/
 export const getPostById = asyncHandler(async (req, res) => {
     const { postId } = req.params;
-    if (!postId) throw new CustomError("Post Id Is Required");
+    if (!postId) throw new CustomError("Post Id Is Required", 400);
 
     const post = await postSchema
         .findById(postId)
@@ -78,7 +78,7 @@ export const getPostById = asyncHandler(async (req, res) => {
             }
         })
 
-    if (!post) throw new CustomError("No such Post Exist!");
+    if (!post) throw new CustomError("No such Post Exist!", 404);
 
     res.status(200).json({
         success: true,
@@ -320,3 +320,35 @@ export const unlikeComment = asyncHandler(async (req, res) => {
         commentExist,
     });
 });
+
+
+/******************************************************
+ * @UPDATE_COMMENT
+ * @route http://localhost:5000/api/v1/post/updateComment/:userId/:commentId
+ * @description it will update the comments 
+ * @parameters userId and commentID
+ * @returns  comment updated
+ ******************************************************/
+export const updateComment = asyncHandler(async (req, res) => {
+    const { userId, commentId } = req.params;
+    const { comment } = req.body
+    if (!userId || !commentId) {
+        throw new CustomError("Please pass both userId and commentId", 400);
+    }
+    if (!comment) throw new CustomError("Please pass Comment!", 400)
+
+    const existingComment = await commentSchema.findById(commentId);
+    if (!existingComment) throw new CustomError("No Such Comment Exists!")
+
+    if (existingComment.userId.toString() !== userId) {
+        throw new CustomError("Unauthorize to Update comment!", 401)
+    }
+    existingComment.comment = comment
+    await existingComment.save()
+
+    res.status(200).json({
+        success: true,
+        message: "Comment updated successfully!",
+        updatedComment: existingComment,
+    })
+})
