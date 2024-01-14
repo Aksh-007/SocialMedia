@@ -134,6 +134,32 @@ export const getUserPost = asyncHandler(async (req, res) => {
 })
 
 /******************************************************
+ * @POST_LIKE_POST
+ * @route http://localhost:5000/api/v1/post/likePost/:userId/:postId
+ * @description it will like a specific post with login userId
+ * @parameters userId,postId
+ * @returns  liked post from User
+ ******************************************************/
+export const likePost = asyncHandler(async (req, res) => {
+    const { userId, postId } = req.params
+    if (!(userId || postId)) throw new CustomError("Please Provide user and post Id!", 400);
+
+    const postExist = await postSchema.findById(postId);
+    if (postExist.likes.includes(userId)) {
+        throw new CustomError("Already Liked the post with this userId", 404)
+    }
+    postExist.likes.push(userId);
+    await postExist.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Post Liked Succesfully",
+        post: postExist,
+    })
+})
+
+
+/******************************************************
  * @POST_COMMENT
  * @route http://localhost:5000/api/v1/post/postComment/:userId/:postId
  * @description it will give 10 recent post of User 
