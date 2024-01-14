@@ -158,6 +158,34 @@ export const likePost = asyncHandler(async (req, res) => {
     })
 })
 
+/******************************************************
+* @POST_UNLIKE_POST
+* @route http://localhost:5000/api/v1/post/unlikePost/:userId/:postId
+* @description it will unlike a specific post with login userId
+* @parameters userId,postId
+* @returns  unliked post from User
+******************************************************/
+export const unlikedPost = asyncHandler(async (req, res) => {
+    const { userId, postId } = req.params;
+    if (!(userId || postId)) throw new CustomError("Please pass user and post Id", 400)
+
+    const existingPost = await postSchema.findById(postId);
+    if (!existingPost) throw new CustomError("No Such Post Exist", 404);
+
+    if (!existingPost.likes.includes(userId)) {
+        throw new CustomError("No Likes on this Post")
+    }
+
+    // logic to remove likes i.e userId from likes array
+    existingPost.likes = existingPost.likes.filter(id => id !== userId);
+    await existingPost.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Unliked the Post",
+        post: existingPost
+    })
+})
 
 /******************************************************
  * @POST_COMMENT

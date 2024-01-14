@@ -1,5 +1,5 @@
 import express from "express";
-import { createPost, deleteComment, deletePost, getAllPost, getPostById, getUserPost, likeComment, likePost, postComment, unlikeComment } from "../controllers/post.controller.js";
+import { createPost, deleteComment, deletePost, getAllPost, getPostById, getUserPost, likeComment, likePost, postComment, unlikeComment, unlikedPost } from "../controllers/post.controller.js";
 import { upload } from "../middleware/multer.middleware.js"
 const postRouter = express.Router();
 
@@ -10,7 +10,7 @@ postRouter.get("/getPost/:postId", getPostById);
 postRouter.delete("/deletePost/:userId/:postId", deletePost);
 postRouter.get("/getuserPost/:userId", getUserPost);
 postRouter.post("/likePost/:userId/:postId", likePost);
-
+postRouter.post("/unlikePost/:userId/:postId", unlikedPost)
 
 postRouter.post("/postComment/:userId/:postId", postComment)
 postRouter.delete("/deleteComment/:userId/:commentId", deleteComment);
