@@ -58,7 +58,7 @@ export const getAllPost = asyncHandler(async (req, res) => {
 
 /******************************************************
  * @GET_POST
- * @route http://localhost:5000/api/v1/post/getPost/:postId
+ * @route http://localhost:5000/api/v1/post/getPostbyId/:postId
  * @description it will give post 
  * @parameters postId
  * @returns  post realeted to postId

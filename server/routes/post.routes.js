@@ -4,9 +4,8 @@ import { upload } from "../middleware/multer.middleware.js"
 const postRouter = express.Router();
 
 postRouter.post("/createPost/:userId", upload.single("file"), createPost);
-
 postRouter.get("/getAllPost", getAllPost);
-postRouter.get("/getPost/:postId", getPostById);
+postRouter.get("/getPostbyId/:postId", getPostById);
 postRouter.delete("/deletePost/:userId/:postId", deletePost);
 postRouter.get("/getuserPost/:userId", getUserPost);
 postRouter.post("/likePost/:userId/:postId", likePost);
