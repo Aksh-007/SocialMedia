@@ -28,13 +28,13 @@ const commentSchema = new mongoose.Schema(
                     type: Schema.Types.ObjectId,
                     ref: "User"
                 },
-                from: {
-                    type: String,
-                },
-                replyAt: {
-                    type: String,
-                },
-                comment: {
+                // from: {
+                //     type: String,
+                // },
+                // replyAt: {
+                //     type: String,
+                // },
+                replyComment: {
                     type: String,
                 },
                 created_At: {
