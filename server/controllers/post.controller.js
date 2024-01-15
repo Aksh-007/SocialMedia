@@ -69,7 +69,10 @@ export const getPostById = asyncHandler(async (req, res) => {
 
     const post = await postSchema
         .findById(postId)
-        .populate("userId", "firstName lastName email location profileUrl profession")
+        .populate({
+            path: "userId",
+            select: "firstName lastName email location profileUrl profession"
+        })
         .populate({
             path: "comments",
             populate: {
@@ -77,6 +80,7 @@ export const getPostById = asyncHandler(async (req, res) => {
                 select: "firstName lastName email location profileUrl profession"
             }
         })
+        .exec();
 
     if (!post) throw new CustomError("No such Post Exist!", 404);
 
@@ -103,8 +107,10 @@ export const deletePost = asyncHandler(async (req, res) => {
     console.log("Post details -", postExist)
     if (postExist.userId.toString() !== userId) throw new CustomError("Not Authorize to delete", 401)
 
-    await postSchema.findByIdAndDelete(postId);
+    // Delete comments associated with the post
+    await commentSchema.deleteMany({ _id: { $in: postExist.comments } });
 
+    await postSchema.findByIdAndDelete(postId);
     res.status(200).json({
         success: true,
         message: "Post deleted successfully!"
