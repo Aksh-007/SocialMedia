@@ -21,9 +21,9 @@ const commentSchema = new mongoose.Schema(
         // },
         replies: [
             {
-                rid: {
-                    type: mongoose.Schema.Types.ObjectId
-                },
+                // rid: {
+                //     type: mongoose.Schema.Types.ObjectId
+                // },
                 userId: {
                     type: Schema.Types.ObjectId,
                     ref: "User"
