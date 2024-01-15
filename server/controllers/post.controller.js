@@ -358,3 +358,35 @@ export const updateComment = asyncHandler(async (req, res) => {
         updatedComment: existingComment,
     })
 })
+
+
+
+/******************************************************
+ * @POST_REPLY_COMMENT
+ * @route http://localhost:5000/api/v1/post/replyComment/:userId/:commentId
+ * @description it will update the comments 
+ * @parameters userId and commentID
+ * @returns  comment updated
+ ******************************************************/
+export const replyComment = asyncHandler(async (req, res) => {
+    const { userId, commentId } = req.params
+    const { replyComment } = req.body
+    if (!(userId || commentId)) throw new CustomError("Please Provide User and Comment Id", 400);
+
+    if (!replyComment) throw new CustomError("Reply on Comment is Required", 400)
+
+    const commentExit = await commentSchema.findById(commentId);
+    if (!commentExit) throw new CustomError("No Such Comment Exists", 404);
+    commentExit.replies.push({
+        userId,
+        replyComment,
+    })
+
+    await commentExit.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Reply added Succesfully",
+        reply: commentExit
+    })
+})
