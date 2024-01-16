@@ -15,8 +15,7 @@ import mailHelper from "../utility/mailHelper.js"
 export const verifyEmail = asyncHandler(async (req, res) => {
     const { token, userId } = req.params
 
-    // const userExists = await userSchema.findById(userId)
-    const userExists = await userSchema.find({ _id: userId })
+    const userExists = await userSchema.findById(userId)
 
     if (!userExists) throw new CustomError('No such User Exist please register', 404)
 
