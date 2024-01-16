@@ -2,7 +2,7 @@ import nodemailer from "nodemailer"
 import dotenv, { config } from "dotenv"
 dotenv.config();
 
-const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
+const { AUTH_EMAIL, AUTH_PASSWORD } = process.env;
 
 let transporter = nodemailer.createTransport({
     // host: process.env.SMTP_MAIL_HOST,
