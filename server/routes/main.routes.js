@@ -10,9 +10,7 @@ router.use("/user", userRouter)
 router.use("/post", postRouter);
 
 // home route for testing
-router.get("/", (req, res) => {
-    res.send(`<h1>App is Running</h1>`)
-})
+
 
 
 export default router

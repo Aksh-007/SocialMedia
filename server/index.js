@@ -30,7 +30,9 @@ app.use(morgan('dev'))
 
 // router middleware
 app.use("/api/v1/", router)
-
+router.get("/", (req, res) => {
+    res.send(`<h1>App is Running</h1>`)
+})
 
 app.listen(PORT, (req, res) => {
     console.log(`App is listening on http://localhost:${PORT}/api/v1/`)
