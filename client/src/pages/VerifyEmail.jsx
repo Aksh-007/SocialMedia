@@ -10,7 +10,7 @@ const VerifyEmail = () => {
   const verifyEmail = async () => {
     try {
       const response = await axios.get(
-        `${baseUrl}user/verifyEmail/:userId/:token`
+        `${baseUrl}user/verifyEmail/${userId}/${token}`
       );
 
       console.log("Message state", message);

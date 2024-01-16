@@ -39,7 +39,7 @@ export const register = asyncHandler(async (req, res) => {
     newUser.password = undefined
     newUser.emailVerificationToken = undefined
     const html = `< div
-    style = 'font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;' >
+    style = 'font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;' />
     <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
     <hr>
     <h4>Hi ${newUser.firstName}${newUser.lastName},</h4>
