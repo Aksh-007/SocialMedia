@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/"
+    },
+    {
+      "src": "/api/v1/user/verifyEmail/:userId/:token",
+      "dest": "/"
+    }
+  ]
+}
