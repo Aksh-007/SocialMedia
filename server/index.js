@@ -29,8 +29,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 // router middleware
-// app.use("/api/v1/", router)
-router.get("/home", (req, res) => {
+app.use("/api/v1/", router)
+app.get("/", (req, res) => {
     res.send(`<h1>App is Running</h1>`)
 })
 
