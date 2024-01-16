@@ -32,13 +32,14 @@ export const register = asyncHandler(async (req, res) => {
     })
 
     // creating a url to sent to email to verify email 
+    // `${req.protocol}://${req.get("host")}/api/v1/user/verifyEmail/${newUser._id}/${emailVerificationTokenPlain}`
     const verifyUrl =
-        `${req.protocol}://${req.get("host")}/api/v1/user/verifyEmail/${newUser._id}/${emailVerificationTokenPlain}`
+        `https://link-leap.vercel.app/api/v1/user/verifyEmail/${newUser._id}/${emailVerificationTokenPlain}`
     //  here dont want to share token and password 
     newUser.password = undefined
     newUser.emailVerificationToken = undefined
-    const html = `<div
-    style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
+    const html = `< div
+    style = 'font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;' >
     <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
     <hr>
     <h4>Hi ${newUser.firstName}${newUser.lastName},</h4>
