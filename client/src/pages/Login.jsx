@@ -24,7 +24,7 @@ const Login = () => {
     try {
       console.log(data);
       const response = await axios.post(
-        `http://localhost:5000/api/v1/auth/login`,
+        `https://social-media-backend-hazel.vercel.app/api/v1/auth/login`,
         data
       );
 
