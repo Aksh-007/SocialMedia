@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "./redux/theme.js";
 import useScrollTop from "./utils/useScrollTop.js";
+import VerifyEmail from "./pages/VerifyEmail.jsx";
 function App() {
   const { theme } = useSelector((state) => state.theme);
   // const dispatch = useDispatch();
@@ -38,6 +39,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="api/v1/user/verifyEmail/:userId/:token"
+            element={<VerifyEmail />}
+          />
         </Routes>
       </div>
     </>
