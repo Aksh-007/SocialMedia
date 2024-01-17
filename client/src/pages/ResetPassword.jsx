@@ -24,7 +24,7 @@ const ResetPassword = () => {
       toast.success(response?.data?.message);
     } catch (error) {
       console.log(error);
-      // setErrMsg(error?.response?.data?.message || "Something Went Wrong");
+      setErrMsg(error?.response?.data?.message);
       toast.error(error?.response?.data?.message ?? error?.message);
     } finally {
       setIsSubmitting(false);
@@ -52,7 +52,7 @@ const ResetPassword = () => {
             labelStyle="ml-2"
             error={errors.email ? errors.email.message : ""}
           />
-          {errMsg?.message && (
+          {errMsg && (
             <span
               role="alert"
               className={`text-sm ${
@@ -61,7 +61,7 @@ const ResetPassword = () => {
                   : "text-[#2ba150fe]"
               }`}
             >
-              {errMsg?.message}
+              {errMsg}
             </span>
           )}
 

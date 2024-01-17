@@ -56,6 +56,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 export const forgotPassword = asyncHandler(async (req, res) => {
     const { email } = req.body
 
+    if (!email) throw new CustomError("Please Enter Email", 400)
     const userExists = await userSchema.findOne({ email })
     if (!userExists) throw new CustomError("No User Exist please Signup", 404)
     const resetToken = randomStringGenerator();
