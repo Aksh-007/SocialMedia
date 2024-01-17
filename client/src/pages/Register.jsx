@@ -12,6 +12,7 @@ import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { baseUrl } from "../utils/baseUrl.js";
 const Register = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
@@ -30,10 +31,7 @@ const Register = () => {
     try {
       setIsSubmitiing(true);
       console.log(requestData);
-      const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/auth/register`,
-        data
-      );
+      const response = await axios.post(`${baseUrl}auth/register`, data);
       toast.success(response?.data?.message);
       response.status === 200 ? navigate("/login") : "";
     } catch (error) {

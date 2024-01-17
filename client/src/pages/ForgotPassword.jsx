@@ -4,7 +4,7 @@ import TextInput from "../components/TextInput.jsx";
 import Loading from "../components/Loading.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import axios from "axios";
-import baseUrl from "../utils/baseUrl.js";
+import { baseUrl } from "../utils/baseUrl.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {

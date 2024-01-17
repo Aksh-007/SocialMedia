@@ -13,7 +13,7 @@ import { AiOutlineInteraction } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-import baseUrl from "../utils/BaseUrl.js";
+import { baseUrl } from "../utils/baseUrl.js";
 const Login = () => {
   const navigate = useNavigate();
   const {
@@ -43,7 +43,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       // setErrMsg(error?.response?.data?.message || "Something Went Wrong");
-      toast.error(error?.response)
+      toast.error(error?.response);
     } finally {
       setIsSubmiting(false); // Stop loading
     }
