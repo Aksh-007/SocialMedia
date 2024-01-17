@@ -20,6 +20,7 @@ const ResetPassword = () => {
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
+      console.log("data is", data);
       const response = await axios.post(
         `https://social-media-backend-hazel.vercel.app/api/v1/user/reset-password/${userId}/${resetToken}`,
         data
@@ -61,7 +62,7 @@ const ResetPassword = () => {
             placeholder="Confirm Password"
             type="Password"
             styles="w-full "
-            register={register("cPassword", {
+            register={register("confirmPassword", {
               validate: (value) => {
                 const { password } = getValues();
                 if (password != value) {
@@ -70,8 +71,9 @@ const ResetPassword = () => {
               },
             })}
             error={
-              errors.cPassword && errors.cPassword.type === "validate"
-                ? errors.cPassword?.message
+              errors.confirmPassword &&
+              errors.confirmPassword.type === "validate"
+                ? errors.confirmPassword?.message
                 : ""
             }
           />
