@@ -34,8 +34,6 @@ const Register = () => {
         `https://social-media-backend-hazel.vercel.app/api/v1/auth/register`,
         data
       );
-      console.log(response);
-      console.log(response?.data?.message);
       toast.success(response?.data?.message);
       response.status === 200 ? navigate("/login") : "";
     } catch (error) {
@@ -121,7 +119,7 @@ const Register = () => {
                 <TextInput
                   name="password"
                   label="Password"
-                  placeholder="Password"
+                  placeholder="Enter Password"
                   type="Password"
                   styles="w-full "
                   register={register("password", {
