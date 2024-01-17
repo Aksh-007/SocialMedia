@@ -22,7 +22,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const [errMsg, setErrMsg] = useState("");
   const [isSubmiting, setIsSubmiting] = useState(false);
   const [password, setPassword] = useState(false);
   const dispatch = useDispatch();
