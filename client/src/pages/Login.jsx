@@ -13,7 +13,7 @@ import { AiOutlineInteraction } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-import { baseUrl } from "../utils/baseUrl.js";
+
 const Login = () => {
   const navigate = useNavigate();
   const {
@@ -30,7 +30,10 @@ const Login = () => {
     try {
       setIsSubmiting(true); // Start loading
 
-      const response = await axios.post(`${baseUrl}auth/login`, data);
+      const response = await axios.post(
+        `https://social-media-backend-hazel.vercel.app/api/v1/auth/login`,
+        data
+      );
 
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response?.data?.user));

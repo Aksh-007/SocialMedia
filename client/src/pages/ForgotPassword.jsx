@@ -4,7 +4,6 @@ import TextInput from "../components/TextInput.jsx";
 import Loading from "../components/Loading.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import axios from "axios";
-import { baseUrl } from "../utils/baseUrl.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
@@ -20,7 +19,10 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
-      const response = await axios.post(`${baseUrl}user/forgot-password`, data);
+      const response = await axios.post(
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/forgot-password`,
+        data
+      );
       console.log(response);
       toast.success(response?.data?.message);
       response.status === 200 ? navigate("/login") : "";

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { baseUrl } from "../utils/baseUrl.js";
 import Loading from "../components/Loading";
 
 const ResetPassword = () => {
@@ -22,7 +21,7 @@ const ResetPassword = () => {
     try {
       setIsSubmitting(true);
       const response = await axios.post(
-        `${baseUrl}user/reset-password/${userId}/${resetToken}`,
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/reset-password/${userId}/${resetToken}`,
         data
       );
       toast.success(response?.data?.message);

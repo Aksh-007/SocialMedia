@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseUrl } from "../utils/baseUrl.js";
 
 const VerifyEmail = () => {
   const { userId, token } = useParams();
@@ -12,7 +11,7 @@ const VerifyEmail = () => {
   const verifyEmail = async () => {
     try {
       const response = await axios.get(
-        `${baseUrl}user/verifyEmail/${userId}/${token}`
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/verifyEmail/${userId}/${token}`
       );
       if (response.status === 200) {
         toast.success(response?.data?.message);
