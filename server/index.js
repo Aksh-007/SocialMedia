@@ -4,6 +4,7 @@ import dbConnection from "./config/dbConnection.js"
 import cors from "cors";
 import morgan from "morgan"
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 // for security
 import helmet from "helmet";
 import router from "./routes/main.routes.js"
@@ -16,6 +17,7 @@ dbConnection();
 
 // middleware
 app.use(helmet())
+app.use(cookieParser())
 app.use(cors())
 // app.use(cors({
 //     credentials: true,
