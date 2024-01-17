@@ -31,9 +31,15 @@ const VerifyEmail = () => {
   return (
     <div className="w-full h-[100vh] bg-bgColor flex items-center justify-center p-6">
       <div className="bg-primary w-full md:w-1/3 2xl:w-1/4 px-6 py-8 shadow-md rounded-lg">
-        <h1 className="text-ascent-1 text-lg font-semibold ">
-          Email Verification failed
-        </h1>
+        {message ? (
+          <h1 className="text-ascent-1 text-lg font-semibold ">
+            Email Verification Success
+          </h1>
+        ) : (
+          <h1 className="text-ascent-1 text-lg font-semibold ">
+            Email Verification failed
+          </h1>
+        )}
         <span className="text-sm text-ascent-2">{message}</span>
       </div>
     </div>

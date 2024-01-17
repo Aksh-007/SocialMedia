@@ -12,6 +12,8 @@ import { ImConnection } from "react-icons/im";
 import { AiOutlineInteraction } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+
 const Login = () => {
   const navigate = useNavigate();
   const {
@@ -29,8 +31,10 @@ const Login = () => {
       );
 
       console.log(response);
-      localStorage.setItem("token", response?.data?.token);
       if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        const token = response?.data?.token;
+        Cookies.set("token", token, { expires: 1 });
         toast.success(response?.data?.message);
         navigate("/");
       }
