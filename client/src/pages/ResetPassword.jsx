@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import TextInput from "../components/TextInput";
 import Loading from "../components/Loading";
 import CustomButton from "../components/CustomButton";
+import axios from "axios";
+import baseUrl from "../utils/baseUrl.js";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 const ResetPassword = () => {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,8 +16,19 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async () => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+      const response = await axios.post(`${baseUrl}user/forgot-password`, data);
+      console.log(response);
+      toast.success(response?.data?.message);
+    } catch (error) {
+      console.log(error);
+      // setErrMsg(error?.response?.data?.message || "Something Went Wrong");
+      toast.error(error?.response?.data?.message ?? error?.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="w-full h-[100vh] bg-bgColor flex items-center justify-center p-6">
