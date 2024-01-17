@@ -6,7 +6,7 @@ const userRouter = express.Router()
 
 userRouter.get("/verifyEmail/:userId/:token", verifyEmail)
 userRouter.post("/forgot-password", forgotPassword)
-userRouter.post("/reset-password/:userId/:resetToken", authMiddleware, resetPassword)
+userRouter.post("/reset-password/:userId/:resetToken", resetPassword)
 userRouter.post("/change-password/:userId", authMiddleware, changePassword);
 userRouter.get("/getUserById/:currentUserId/:userId", authMiddleware, getUserById)
 userRouter.put("/updateUser/:userId", authMiddleware, updateUser);
