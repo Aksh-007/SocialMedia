@@ -14,6 +14,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const Register = () => {
   const navigate = useNavigate();
+  const [errMsg, setErrMsg] = useState("");
+  const [isSubmitting, setIsSubmitiing] = useState(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -25,6 +28,7 @@ const Register = () => {
     // e.preventDefault();
     const { cPassword, ...requestData } = data;
     try {
+      setIsSubmitiing(true);
       console.log(requestData);
       const response = await axios.post(
         `https://social-media-backend-hazel.vercel.app/api/v1/auth/register`,
@@ -37,15 +41,14 @@ const Register = () => {
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message);
+    } finally {
+      setIsSubmitiing(false);
     }
   };
 
   // const onSubmit = async (data) => {
   //   console.log(data);
   // };
-  const [errMsg, setErrMsg] = useState("");
-  const [isSubmitting, setIsSubmitiing] = useState(false);
-  const dispatch = useDispatch();
 
   return (
     <>

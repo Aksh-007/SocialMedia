@@ -22,15 +22,20 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const [errMsg, setErrMsg] = useState("");
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [password, setPassword] = useState(false);
+  const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      setIsSubmiting(true); // Start loading
+
       const response = await axios.post(
         `https://social-media-backend-hazel.vercel.app/api/v1/auth/login`,
         data
       );
 
-      console.log(response);
       if (response.status === 200) {
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
         const token = response?.data?.token;
@@ -40,15 +45,11 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "Something Went Wrong");
+      setErrMsg(error?.response?.data?.message || "Something Went Wrong");
+    } finally {
+      setIsSubmiting(false); // Stop loading
     }
   };
-
-  const [errMsg, setErrMsg] = useState("");
-  const [isSubmitting, setIsSubmitiing] = useState(false);
-  const [password, setPassword] = useState(false);
-  const dispatch = useDispatch();
-
   const togglePasswordVisibility = () => {
     setPassword(!password);
   };
@@ -137,7 +138,7 @@ const Login = () => {
                 {errMsg?.message}
               </span>
             )}
-            {isSubmitting ? (
+            {isSubmiting ? (
               <Loading />
             ) : (
               <CustomButton
