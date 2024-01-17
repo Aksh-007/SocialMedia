@@ -38,24 +38,21 @@ export const register = asyncHandler(async (req, res) => {
     //  here dont want to share token and password 
     newUser.password = undefined
     newUser.emailVerificationToken = undefined
-    const html = `< div
-    style = 'font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;' />
-    <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
-    <hr>
-    <h4>Hi ${newUser.firstName}${newUser.lastName},</h4>
+    const html = `<div style="font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;">
+    <h3 style="color: #0838bc; margin-bottom: 10px;">Please verify your email address</h3>
+    <hr style="border: 1px solid #ccc; margin-bottom: 20px;">
+    <h4>Hi ${newUser.firstName} ${newUser.lastName},</h4>
     <p>
-        Please verify your email address so we can know that it's really you.
-        <br>
-    <br>
-    <a href=${verifyUrl}
-        style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
-        Email Address</a>
+        Please verify your email address so we can confirm that it's really you.
+        <br><br>
+        <a href=${verifyUrl}
+            style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px; display: inline-block;">Verify Email Address</a>
     </p>
     <div style="margin-top: 20px;">
-        <h5>Best Regards</h5>
+        <h5>Best Regards,</h5>
         <h5>Linkleap Team</h5>
     </div>
-    </div>`
+</div>`;
 
     // sending token to mail
     try {

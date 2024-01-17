@@ -68,8 +68,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     // creating url to sent on mail
     // http://localhost:5000/api/v1/user/reset-password/:userId/:resetToken
     const forgotPasswordUrl =
-        `${req.protocol}://${req.get("host")}/api/v1/user/reset-password/${userExists._id}/${resetToken}`
-
+        `https://link-leap.vercel.app/api/v1/user/reset-password/${userExists._id}/${resetToken}`
 
     const html = `<p style="font-family: Arial, sans-serif; font-size: 16px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;">
         Password reset link. Please click the link below to reset password.
