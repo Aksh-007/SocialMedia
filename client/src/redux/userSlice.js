@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { user } from "../assets/data";
+import Cookies from "js-cookie";
 
 const initialState = {
     user: JSON.parse(window?.localStorage.getItem("user")) ?? user,
@@ -16,7 +17,8 @@ const userSlice = createSlice({
         },
         logout(state) {
             state.user = null;
-            localStorage?.removeItem("user");
+            // Cookies.remove("token", { path: "/", domain: "https://link-leap.vercel.app" });
+            Cookies.remove("token")
         },
         updateProfile(state, action) {
             state.edit = action.payload;
