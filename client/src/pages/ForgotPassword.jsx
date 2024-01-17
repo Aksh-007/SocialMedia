@@ -6,7 +6,9 @@ import CustomButton from "../components/CustomButton.jsx";
 import axios from "axios";
 import baseUrl from "../utils/baseUrl.js";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -21,6 +23,7 @@ const ForgotPassword = () => {
       const response = await axios.post(`${baseUrl}user/forgot-password`, data);
       console.log(response);
       toast.success(response?.data?.message);
+      response.status === 200 ? navigate("/login") : "";
     } catch (error) {
       console.log(error);
       setErrMsg(error?.response?.data?.message);
