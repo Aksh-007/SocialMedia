@@ -22,6 +22,7 @@ app.use(cors())
 // app.use(cors({
 //     credentials: true,
 //     origin: "http://localhost:5173/"
+//     methods:["GET","PUT","POST","DELETE","PATCH"]
 // }))
 // app.use(bodyParser.json())
 // app.use(bodyParser.urlencoded({ extended: true }))

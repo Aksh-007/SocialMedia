@@ -389,12 +389,3 @@ export const acceptFriendRequest = asyncHandler(async (req, res) => {
         })
     }
 })
-
-
-/******************************************************
- * @
- * @route http://localhost:5000/api/v1/user/acceptFriendRequest/:userId/:requestedId
- * @description Accept a friend request ie to:userId and requestedid:requestedId,
- * @parameters userId 
- * @returns success: friend added to rquest
- ******************************************************/
