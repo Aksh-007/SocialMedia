@@ -11,6 +11,7 @@ import { setTheme } from "./redux/theme.js";
 import useScrollTop from "./utils/useScrollTop.js";
 import VerifyEmail from "./pages/VerifyEmail.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 function App() {
   const { theme } = useSelector((state) => state.theme);
   // const dispatch = useDispatch();
@@ -35,7 +36,11 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Home />} />
-            <Route path="/profile/:id?" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route
+              path="/change-password/:userId"
+              element={<ChangePassword />}
+            />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

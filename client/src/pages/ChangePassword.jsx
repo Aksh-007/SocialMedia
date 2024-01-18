@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
-import CustomButton from "../components/CustomButton.jsx";
+import CustomButton from "../components/CustomButton";
 import TextInput from "../components/TextInput.jsx";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading.jsx";
+import Cookies from "js-cookie";
 
-const ResetPassword = () => {
-  const { userId, resetToken } = useParams();
+const ChangePassword = () => {
+  const { userId } = useParams();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -22,10 +23,15 @@ const ResetPassword = () => {
       setIsSubmitting(true);
       console.log("data is", data);
       const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/reset-password/${userId}/${resetToken}`,
-        data
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/change-password/${userId}`,
+        data,
+        {
+          withCredentials: true, // Enable sending cookies
+        }
       );
       toast.success(response?.data?.message);
+      //   deleting cookies
+      Cookies.remove("token", { path: "/" });
       response.status === 200 ? navigate("/login") : "";
     } catch (error) {
       console.log(error);
@@ -45,24 +51,24 @@ const ResetPassword = () => {
           className="py-3 flex flex-col gap-4 "
         >
           <TextInput
-            name="password"
-            label="Password"
-            placeholder="Enter Password"
+            name="oldPassword"
+            label="Old Password"
+            placeholder="Enter Old Password"
             type="Password"
             styles="w-full "
-            register={register("password", {
+            register={register("oldPassword", {
               required: "Password is required!",
             })}
-            error={errors.password ? errors.password?.message : ""}
+            error={errors.oldPassword ? errors.oldPassword?.message : ""}
           />
 
           <TextInput
-            name="confirmPassword"
+            name="newPassword"
             label="Confirm Password"
             placeholder="Confirm Password"
             type="Password"
             styles="w-full "
-            register={register("confirmPassword", {
+            register={register("newPassword", {
               validate: (value) => {
                 const { password } = getValues();
                 if (password != value) {
@@ -71,9 +77,8 @@ const ResetPassword = () => {
               },
             })}
             error={
-              errors.confirmPassword &&
-              errors.confirmPassword.type === "validate"
-                ? errors.confirmPassword?.message
+              errors.newPassword && errors.newPassword.type === "validate"
+                ? errors.newPassword?.message
                 : ""
             }
           />
@@ -92,4 +97,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ChangePassword;
