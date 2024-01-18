@@ -13,6 +13,7 @@ import { AiOutlineInteraction } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { UserLogin } from "../redux/userSlice.js";
 const Login = () => {
   const navigate = useNavigate();
   const {
@@ -28,7 +29,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       setIsSubmitiing(true);
-      console.log(data);
+
       const response = await axios.post(
         `https://social-media-backend-hazel.vercel.app/api/v1/auth/login`,
         data
@@ -36,6 +37,8 @@ const Login = () => {
       if (response.status === 200) {
         const token = response?.data?.token;
         Cookies.set("token", token, { expires: 1 });
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        // dispatch(Login(response?.data?.user));
         toast.success(response?.data?.message);
         navigate("/");
       }
