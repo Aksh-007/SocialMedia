@@ -18,15 +18,11 @@ import FriendsSugestion from "../components/FriendsSugestion.jsx";
 import EditProfile from "../components/EditProfile.jsx";
 const Home = () => {
   const { UpdateProfile } = useSelector((state) => state.user);
-  const { UpdateProfile } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // getting user details from local storage
-  const user = JSON.parse(localStorage.getItem("user"));
 
   // getting user details from local storage
   const user = JSON.parse(localStorage.getItem("user"));
