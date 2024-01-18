@@ -167,6 +167,8 @@ userSchema.methods = {
                 {
                     _id: this._id,
                     firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
                 },
                 process.env.JWT_SECRET,
                 {
