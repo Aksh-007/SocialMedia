@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileCard from "../components/ProfileCard";
 import FriendsCard from "../components/FriendsCard";
 import { suggest, requests, posts } from "../assets/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoProfile from "../assets/userprofile.png";
 import CustomButton from "../components/CustomButton";
 import TextInput from "../components/TextInput.jsx";
@@ -17,12 +17,15 @@ import FriendsRequest from "../components/FriendsRequest.jsx";
 import FriendsSugestion from "../components/FriendsSugestion.jsx";
 import EditProfile from "../components/EditProfile.jsx";
 const Home = () => {
-  const { user, UpdateProfile } = useSelector((state) => state.user);
+  const { UpdateProfile } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // getting user details from local storage
+  const user = JSON.parse(localStorage.getItem("user"));
   const {
     register,
     handleSubmit,

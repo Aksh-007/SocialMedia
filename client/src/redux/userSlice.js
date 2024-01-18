@@ -19,6 +19,7 @@ const userSlice = createSlice({
             state.user = null;
             // Cookies.remove("token", { path: "/", domain: "https://link-leap.vercel.app" });
             Cookies.remove("token")
+            localStorage.removeItem("user")
         },
         updateProfile(state, action) {
             state.edit = action.payload;

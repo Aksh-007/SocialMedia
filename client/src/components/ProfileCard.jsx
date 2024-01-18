@@ -24,7 +24,7 @@ const ProfileCard = ({
   profession,
   location,
   createdAt,
-  verified,
+  isVerified,
   friends,
   views,
 }) => {
@@ -97,7 +97,7 @@ const ProfileCard = ({
         </div>
 
         <span className="text-base text-blue">
-          {verified ? "Verified Account" : "Not Verified"}
+          {isVerified ? "Verified Account" : "Not Verified"}
         </span>
 
         <div className="flex items-center justify-between">
