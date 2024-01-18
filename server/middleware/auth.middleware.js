@@ -11,7 +11,6 @@ export const isLoggedIn = asyncHandler(async (req, res, next) => {
     ) {
         token = req.cookies.token || req.headers.authorization.split(" ")[1]
     }
-    console.log(token)
     if (!token) {
         res.status(401).json({
             success: false,
@@ -23,6 +22,13 @@ export const isLoggedIn = asyncHandler(async (req, res, next) => {
     try {
         const decodeJWTPayload = JWT.verify(token, process.env.JWT_SECRET)
         req.user = await userSchema.findById(decodeJWTPayload._id)
+        if (!req.user) {
+            res.status(404).json({
+                success: false,
+                message: "No Such User Exists!",
+            });
+            return;
+        }
         next()
     } catch (error) {
         res.status(401).json({
