@@ -16,7 +16,17 @@ import React, { forwardRef } from "react";
 // };
 const TextInput = forwardRef(
   (
-    { type, placeholder, styles, label, labelStyles, register, name, error },
+    {
+      type,
+      placeholder,
+      styles,
+      label,
+      labelStyles,
+      register,
+      name,
+      error,
+      disabled,
+    },
     ref
   ) => {
     return (
@@ -31,6 +41,7 @@ const TextInput = forwardRef(
             name={name}
             placeholder={placeholder}
             ref={ref}
+            disabled={disabled}
             className={`bg-secondary rounded-lg border border-[#66666690] outline-none text-sm text-ascent-1 px-4 py-3 placeholder:text-[#666] ${styles}`}
             {...register}
             aria-invalid={error ? "true" : "false"}

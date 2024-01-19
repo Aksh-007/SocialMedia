@@ -54,6 +54,7 @@ const ChangePassword = () => {
             name="oldPassword"
             label="Old Password"
             placeholder="Enter Old Password"
+            disabled={isSubmitting}
             type="Password"
             styles="w-full "
             register={register("oldPassword", {
@@ -66,6 +67,7 @@ const ChangePassword = () => {
             name="newPassword"
             label="Confirm Password"
             placeholder="Confirm Password"
+            disabled={isSubmitting}
             type="Password"
             styles="w-full "
             register={register("newPassword", {

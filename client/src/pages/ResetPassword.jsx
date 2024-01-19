@@ -20,7 +20,6 @@ const ResetPassword = () => {
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
-      console.log("data is", data);
       const response = await axios.post(
         `https://social-media-backend-hazel.vercel.app/api/v1/user/reset-password/${userId}/${resetToken}`,
         data
@@ -28,7 +27,6 @@ const ResetPassword = () => {
       toast.success(response?.data?.message);
       response.status === 200 ? navigate("/login") : "";
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message ?? error?.message);
     } finally {
       setIsSubmitting(false);
@@ -47,6 +45,7 @@ const ResetPassword = () => {
           <TextInput
             name="password"
             label="Password"
+            disabled={isSubmitting}
             placeholder="Enter Password"
             type="Password"
             styles="w-full "
@@ -59,6 +58,7 @@ const ResetPassword = () => {
           <TextInput
             name="confirmPassword"
             label="Confirm Password"
+            disabled={isSubmitting}
             placeholder="Confirm Password"
             type="Password"
             styles="w-full "

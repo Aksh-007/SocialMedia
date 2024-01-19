@@ -85,6 +85,7 @@ const Login = () => {
               name="email"
               placeholder="email@example.com"
               label="Email Address"
+              disabled={isSubmitting}
               type="email"
               register={register("email", {
                 required: "Email Address is required",
@@ -98,6 +99,7 @@ const Login = () => {
               name="password"
               label="Password"
               placeholder="Password"
+              disabled={isSubmitting}
               type={password ? "text" : "Password"}
               styles="w-full "
               labelStyle="ml-2"

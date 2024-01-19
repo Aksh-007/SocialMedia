@@ -93,6 +93,7 @@ const Register = () => {
                 <TextInput
                   name="lastName"
                   label="Last Name"
+                  disabled={isSubmitting}
                   placeholder="Last Name"
                   type="text"
                   register={register("lastName", {
@@ -106,6 +107,7 @@ const Register = () => {
               <TextInput
                 name="email"
                 placeholder="email@example.com"
+                disabled={isSubmitting}
                 label="Email Address"
                 type="email"
                 register={register("email", {
@@ -119,6 +121,7 @@ const Register = () => {
                 <TextInput
                   name="password"
                   label="Password"
+                  disabled={isSubmitting}
                   placeholder="Enter Password"
                   type="Password"
                   styles="w-full "
@@ -131,6 +134,7 @@ const Register = () => {
                 <TextInput
                   name="confirmPassword"
                   label="Confirm Password"
+                  disabled={isSubmitting}
                   placeholder="Confirm Password"
                   type="Password"
                   styles="w-full "

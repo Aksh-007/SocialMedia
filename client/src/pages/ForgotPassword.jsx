@@ -48,6 +48,7 @@ const ForgotPassword = () => {
           <TextInput
             name="email"
             placeholder="Enter email address"
+            disabled={isSubmitting}
             type="email"
             register={register("email", {
               required: "Email address is required",
