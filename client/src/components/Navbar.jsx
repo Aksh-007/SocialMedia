@@ -11,13 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { Logout } from "../redux/userSlice";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
+import Sidebar from "./Sidebar";
 
 const Navbar = () => {
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Sidebar, setSidebar] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -90,23 +91,14 @@ const Navbar = () => {
 
         {/* hamburger */}
         <div
-          className="md:hidden "
-          onClick={() => {
-            setSidebar(!Sidebar);
-          }}
+          className="md:hidden"
+          onClick={() => setSidebarOpen(!isSidebarOpen)}
         >
           <GiHamburgerMenu className="cursor-pointer" size={25} />
         </div>
 
-        {/*onClick of hamburger show this  */}
-        <div
-          className={`md:hidden ${
-            Sidebar ? "flex" : "hidden"
-          } fixed top-0 left-0 h-full w-1/2 bg-gray-800 text-white p-4`}
-        >
-          <h1>Sidebar</h1>
-          {/* Add your sidebar content here */}
-        </div>
+        {/* sidebar */}
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
     </div>
   );
