@@ -100,7 +100,7 @@ const Navbar = () => {
         {/* sidebar */}
 
         {isSidebarOpen && (
-          <div className="fixed top-[84px] right-0 h-[91vh] w-64 bg-primary text-white p-4">
+          <div className="fixed top-[80px] right-0 h-[91vh] w-64 bg-primary text-white p-4">
             <div
               className="font-medium text-[1.1rem] text-ascent-1 
               flex flex-col gap-6
