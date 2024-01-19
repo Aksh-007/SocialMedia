@@ -9,13 +9,15 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { setTheme } from "../redux/theme";
 import { useNavigate } from "react-router-dom";
 import { Logout } from "../redux/userSlice";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
 
 const Navbar = () => {
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [Sidebar, setSidebar] = useState(false);
   const {
     register,
     handleSubmit,
@@ -78,12 +80,32 @@ const Navbar = () => {
         </div>
 
         {/* logout button */}
-        <div>
+        <div className="hidden md:flex">
           <CustomButton
             onClick={logout}
             title="Log Out"
             containerStyles="text-sm h-[45px] text-ascent-1 px-4 md:px-6 py-1 md:py-2 border border-[#666] rounded-full"
           />
+        </div>
+
+        {/* hamburger */}
+        <div
+          className="md:hidden "
+          onClick={() => {
+            setSidebar(!Sidebar);
+          }}
+        >
+          <GiHamburgerMenu className="cursor-pointer" size={25} />
+        </div>
+
+        {/*onClick of hamburger show this  */}
+        <div
+          className={`md:hidden ${
+            Sidebar ? "flex" : "hidden"
+          } fixed top-0 left-0 h-full w-1/2 bg-gray-800 text-white p-4`}
+        >
+          <h1>Sidebar</h1>
+          {/* Add your sidebar content here */}
         </div>
       </div>
     </div>
