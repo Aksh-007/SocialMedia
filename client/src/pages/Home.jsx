@@ -40,11 +40,11 @@ const Home = () => {
   return (
     <>
       <div
-        className="w-full h-full pb-20 lg:px-20 bg-bgColor  overflow-hidden "
+        className="w-full h-full lg:px-20 bg-bgColor  "
         // style={{ border: "2px solid blue" }}
       >
         {/* <Navbar /> */}
-        <div className="w-full  flex gap-2 lg:gap-4  lg:pt-5 pb-10 ">
+        <div className="w-full  flex gap-2 lg:gap-4  lg:pt-5  ">
           {/* left */}
           <div
             className="hidden w-1/3 lg:w-1/4 h-full md:flex flex-col gap-6 overflow-auto "
