@@ -16,10 +16,11 @@ const PORT = process.env.PORT || 5000;
 dbConnection();
 
 // middleware
-// const allowedOrigins = ['http://localhost:5173', 'https://link-leap.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://link-leap.vercel.app'];
 
 app.use(cors({
-    origin: true,
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
 app.use(helmet())
