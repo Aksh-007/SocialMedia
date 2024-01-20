@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { suggest } from "../assets/data";
 import { Link } from "react-router-dom";
 import NoProfile from "../assets/userprofile.png";
+import axios from "axios";
 
 const FriendsSugestion = () => {
   const [suggestedFriends, setSuggestedFriends] = useState(suggest);
+  const [isSubmitting, setIsSubmitiing] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?._id;
+  const fetchFriendRequest = async () => {
+    try {
+      setIsSubmitiing(true);
+      const response = await axios.get(
+        // `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`,
+        `http://localhost:5000/api/v1/user/friends-suggestion/${userId}`,
+        { withCredentials: true }
+      );
+      console.log("friend Request", response);
+      setSuggestedFriends(response?.data?.suggestedFriends); // Use response.data to update the state
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitiing(false);
+    }
+  };
+  useEffect(() => {
+    // friendRequest
+    fetchFriendRequest();
+  }, []);
   return (
     <div className="w-full bg-primary shadow-sm rounded-lg px-5 py-5">
       <div className="flex items-center justify-between text-xl text-ascent-1  border-b border-borderColor">
