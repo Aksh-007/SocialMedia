@@ -12,7 +12,7 @@ userRouter.get("/getUserById/:currentUserId/:userId", authMiddleware, getUserByI
 userRouter.put("/updateUser/:userId", authMiddleware, updateUser);
 userRouter.get("/friends-suggestion/:userId", authMiddleware, suggestFriends)
 userRouter.post("/friendRequest/:userId/:requestedUserId", authMiddleware, sentfriendRequest);
-userRouter.get("/friendRequest/:userId", getAllFriendRequest);
+userRouter.get("/getAllFriendRequest/:userId", getAllFriendRequest);
 userRouter.post("/acceptFriendRequest/:userId/:requestedId", authMiddleware, acceptFriendRequest);
 
 export default userRouter

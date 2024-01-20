@@ -322,7 +322,7 @@ export const sentfriendRequest = asyncHandler(async (req, res) => {
 
 /******************************************************
  * @GET_All_FRIENDS_REQUEST
- * @route http://localhost:5000/api/v1/user/friendRequest/:userId
+ * @route http://localhost:5000/api/v1/user/getAllFriendRequest/:userId
  * @description give list of All friends Request,
  * @parameters userId 
  * @returns success: allfriends list 
