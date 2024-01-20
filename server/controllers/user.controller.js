@@ -338,7 +338,7 @@ export const getAllFriendRequest = asyncHandler(async (req, res) => {
         requestStatus: "Pending"
     }).populate("requestFrom", "firstName lastName email profession").limit(10).sort({ _id: -1 });
 
-    if (allFriendRequest.length === 0) throw new CustomError("No Friend Request", 200);
+    // if (allFriendRequest.length === 0) throw new CustomError("No Friend Request", 200);
     res.status(200).json({
         success: true,
         message: "Friend Request Retrieved",
