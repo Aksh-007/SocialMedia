@@ -10,6 +10,8 @@ import Loading from "./Loading";
 const FriendsRequest = () => {
   const [friendRequest, setFriendRequest] = useState(requests);
   const [isSubmitting, setIsSubmitiing] = useState(false);
+  const [status, setStatus] = useState();
+  const [requestId, setRequestId] = useState();
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?._id;
   // useEffect to fetch data
@@ -17,8 +19,8 @@ const FriendsRequest = () => {
     try {
       setIsSubmitiing(true);
       const response = await axios.get(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`,
-        // `http://localhost:5000/api/v1/user/friendRequest/${userId}`,
+        // `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`,
+        `http://localhost:5000/api/v1/user/friendRequest/${userId}`,
         { withCredentials: true }
       );
       console.log("friend Request", response);
@@ -34,6 +36,29 @@ const FriendsRequest = () => {
     // friendRequest
     fetchFriendRequest();
   }, []);
+
+  // accept or reject request
+
+  const friendRequestCall = async (string, id) => {
+    setStatus(string);
+    setRequestId(id);
+    console.log(string, id);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/user/acceptFriendRequest/${userId}/${id}`,
+        { status },
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        toast.success(response?.data?.message);
+        fetchFriendRequest();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message ?? error?.message);
+    }
+  };
   return (
     <>
       {isSubmitting ? (
@@ -77,10 +102,12 @@ const FriendsRequest = () => {
                     <CustomButton
                       title="Accept"
                       containerStyles="bg-[#0444a4] text-xs text-white px-1.5 py-1 rounded-full"
+                      onClick={() => friendRequestCall("Accept", request?._id)}
                     />
                     <CustomButton
                       title="Deny"
                       containerStyles="border border-[#666] text-xs text-ascent-1 px-1.5 py-1 rounded-full"
+                      onClick={() => friendRequestCall("Deny", request?._id)}
                     />
                   </div>
                 </div>
