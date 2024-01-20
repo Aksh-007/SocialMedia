@@ -26,7 +26,7 @@ const allowedOrigins = ['https://link-leap.vercel.app', 'http://localhost:5173']
 app.use(cors({
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true
+    // credentials: true
 }));
 
 app.use(morgan('dev'))
