@@ -21,7 +21,7 @@ app.use(cookieParser())
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true }))
 // app.use(cors())
-const allowedOrigins = ['http://localhost:5173', 'https://link-leap.vercel.app'];
+const allowedOrigins = ['http://localhost:5173/', 'https://link-leap.vercel.app/'];
 
 app.use(cors({
     origin: allowedOrigins,
