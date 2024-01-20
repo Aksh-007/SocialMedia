@@ -17,8 +17,9 @@ dbConnection();
 
 // middleware
 const allowedOrigins = ['http://localhost:5173', 'https://link-leap.vercel.app'];
+
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
@@ -26,14 +27,6 @@ app.use(helmet())
 app.use(cookieParser())
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true }))
-// app.use(cors())
-
-// const corsOptions = {
-//     origin: allowedOrigins,
-//     credentials: true, //access-control-allow-credentials:true
-//     optionSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
 
 app.use(morgan('dev'))
 
