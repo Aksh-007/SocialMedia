@@ -17,11 +17,9 @@ const FriendsRequest = () => {
   // useEffect to fetch data
   const fetchFriendRequest = async () => {
     try {
-      setIsSubmitiing(true);
+      // setIsSubmitiing(true);
       const response = await axios.get(
-        // `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`,
-        `http://localhost:5000/api/v1/user/friendRequest/${userId}`,
-        { withCredentials: true }
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`
       );
       console.log("friend Request", response);
       setFriendRequest(response?.data?.friendRequest); // Use response.data to update the state
@@ -60,11 +58,11 @@ const FriendsRequest = () => {
     }
   };
   return (
-    <>
+    <div className="w-full min-h-[150px] bg-primary shadow-sm rounded-lg px-6 p-5">
       {isSubmitting ? (
         <Loading />
       ) : (
-        <div className="w-full bg-primary shadow-sm rounded-lg px-6 p-5">
+        <>
           <div className="flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-borderColor">
             <span>Friend Request</span>
             <span>{friendRequest?.length}</span>
@@ -114,9 +112,9 @@ const FriendsRequest = () => {
               ))}
             </div>
           )}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

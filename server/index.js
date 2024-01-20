@@ -21,14 +21,20 @@ app.use(cookieParser())
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true }))
 // app.use(cors())
-const allowedOrigins = ['https://link-leap.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'https://link-leap.vercel.app'];
 
 app.use(cors({
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    // credentials: true
+    credentials: true
 }));
+// const corsOptions = {
+//     origin: "http://localhost:3000",
+//     credentials: true, //access-control-allow-credentials:true
+//     optionSuccessStatus: 200,
+// };
 
+// app.use(cors(corsOptions));
 app.use(morgan('dev'))
 
 // router middleware

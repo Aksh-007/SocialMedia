@@ -14,9 +14,7 @@ const FriendsSugestion = () => {
     try {
       setIsSubmitiing(true);
       const response = await axios.get(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`,
-        // `http://localhost:5000/api/v1/user/friends-suggestion/${userId}`,
-        { withCredentials: true }
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/friendRequest/${userId}`
       );
       console.log("friend Request", response);
       setSuggestedFriends(response?.data?.suggestedFriends); // Use response.data to update the state
