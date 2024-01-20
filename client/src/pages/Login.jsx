@@ -36,7 +36,11 @@ const Login = () => {
       );
       if (response.status === 200) {
         const token = response?.data?.token;
-        Cookies.set("token", token, { expires: 1 });
+        Cookies.set("token", token, {
+          expires: 1d,
+          secure: true,
+          sameSite: "None",
+        });
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
         // dispatch(Login(response?.data?.user));
         toast.success(response?.data?.message);
