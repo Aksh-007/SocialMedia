@@ -13,7 +13,7 @@ export const isLoggedIn = asyncHandler(async (req, res, next) => {
     if (!token) {
         res.status(401).json({
             success: false,
-            message: "Not authorized to access this route",
+            message: "Not authorized to access this route No token",
         });
         return;
     }
