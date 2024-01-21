@@ -63,7 +63,7 @@ const FriendsRequest = () => {
         <span>{friendRequest?.length}</span>
       </div>
       {isSubmitting ? (
-        <Loading />
+        <Loading className="mt-[50px]" />
       ) : (
         <>
           {friendRequest.length === 0 ? (

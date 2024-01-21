@@ -46,13 +46,13 @@ const FriendsSugestion = () => {
     }
   };
   return (
-    <div className="w-full bg-primary shadow-sm rounded-lg px-5 py-5">
+    <div className="w-full min-h-[150px] bg-primary shadow-sm rounded-lg px-5 py-5">
       <div className="flex items-center justify-between text-xl text-ascent-1  border-b border-borderColor">
         <span> Friends Suggestion</span>
         {/* <span>{friendRequest?.length}</span> */}
       </div>
       {isSubmitting ? (
-        <Loading className="mt-[10px]" />
+        <Loading className="mt-[50px]" />
       ) : (
         <div className="w-full flex flex-col gap-4 pt-4">
           {suggestedFriends.map((friend) => (
