@@ -90,7 +90,7 @@ export const login = asyncHandler(async (req, res) => {
     if (!password) throw new CustomError('Please Fill password Field', 400);
 
     // here please select password otherwise no password selected
-    const userExist = await userSchema.findOne({ email }).select("+password").populate('friends', 'firstName lastName email')
+    const userExist = await userSchema.findOne({ email }).select("+password").populate('friends', 'firstName lastName email profileUrl')
 
     if (!userExist) throw new CustomError('Please Register User', 404)
 
