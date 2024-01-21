@@ -11,7 +11,7 @@ userRouter.post("/change-password/:userId", authMiddleware, changePassword);
 userRouter.get("/getUserById/:currentUserId/:userId", authMiddleware, getUserById)
 userRouter.put("/updateUser/:userId", authMiddleware, updateUser);
 userRouter.get("/friends-suggestion/:userId", authMiddleware, suggestFriends)
-userRouter.post("/friendRequest/:userId/:requestedUserId", authMiddleware, sentfriendRequest);
+userRouter.post("/sentfriendRequest/:userId/:requestedUserId", authMiddleware, sentfriendRequest);
 userRouter.get("/getAllFriendRequest/:userId", authMiddleware, getAllFriendRequest);
 userRouter.post("/acceptFriendRequest/:userId/:requestedId", authMiddleware, acceptFriendRequest);
 

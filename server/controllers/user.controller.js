@@ -275,7 +275,7 @@ export const suggestFriends = asyncHandler(async (req, res) => {
 
 /******************************************************
  * @POST_FRIENDS_REQUEST
- * @route http://localhost:5000/api/v1/user/friendRequest/:userId/:requestedUserId
+ * @route http://localhost:5000/api/v1/user/sentfriendRequest/:userId/:requestedUserId
  * @description sent friends from:userId to:requestedUserId,
  * @parameters userId 
  * @returns success:  Friend Request sent  
