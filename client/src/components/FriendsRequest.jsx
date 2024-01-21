@@ -21,7 +21,6 @@ const FriendsRequest = () => {
         `https://social-media-backend-hazel.vercel.app/api/v1/user/getAllFriendRequest/${userId}`,
         { withCredentials: true }
       );
-      console.log("friend Request", response);
       setFriendRequest(response?.data?.friendRequest); // Use response.data to update the state
     } catch (error) {
       console.log(error);
