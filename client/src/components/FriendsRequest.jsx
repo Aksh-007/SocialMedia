@@ -43,7 +43,7 @@ const FriendsRequest = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/user/acceptFriendRequest/${userId}/${id}`,
+        `https://social-media-backend-hazel.vercel.app/api/v1/user/acceptFriendRequest/${userId}/${id}`,
         { status },
         { withCredentials: true }
       );
