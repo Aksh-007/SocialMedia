@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import NoProfile from "../assets/userprofile.png";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 
 const FriendsSugestion = () => {
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -50,46 +51,50 @@ const FriendsSugestion = () => {
         <span> Friends Suggestion</span>
         {/* <span>{friendRequest?.length}</span> */}
       </div>
-      <div className="w-full flex flex-col gap-4 pt-4">
-        {suggestedFriends.map((friend) => (
-          <div className="flex items-center justify-between" key={friend._id}>
-            <div
-              key={friend._id}
-              className="w-full flex gap-4 items-center cursor-pointer"
-            >
-              <img
-                src={friend?.profileUrl ?? NoProfile}
-                alt={friend?.firstName}
-                className="w-10 h-10 object-cover rounded-full"
-              />
-              <Link to={`/profile/${friend?._id}`} className="flex-1">
-                <p className="text-base font-medium text-ascent-1">
-                  {`${friend?.firstName} ${friend?.lastName}`}
-                </p>
-                <span className="text-sm text-ascent-2">
-                  {friend?.profession ?? "No Profession"}
-                </span>
-              </Link>
+      {isSubmitting ? (
+        <Loading />
+      ) : (
+        <div className="w-full flex flex-col gap-4 pt-4">
+          {suggestedFriends.map((friend) => (
+            <div className="flex items-center justify-between" key={friend._id}>
+              <div
+                key={friend._id}
+                className="w-full flex gap-4 items-center cursor-pointer"
+              >
+                <img
+                  src={friend?.profileUrl ?? NoProfile}
+                  alt={friend?.firstName}
+                  className="w-10 h-10 object-cover rounded-full"
+                />
+                <Link to={`/profile/${friend?._id}`} className="flex-1">
+                  <p className="text-base font-medium text-ascent-1">
+                    {`${friend?.firstName} ${friend?.lastName}`}
+                  </p>
+                  <span className="text-sm text-ascent-2">
+                    {friend?.profession ?? "No Profession"}
+                  </span>
+                </Link>
 
-              {/* button div */}
-              <div>
-                <button
-                  className="bg-[#0444a430] text-sm  text-white p-1 rounded"
-                  onClick={() => {
-                    sentFrienedRequest(
-                      friend._id,
-                      friend?.firstName,
-                      friend?.lastName
-                    );
-                  }}
-                >
-                  <BsPersonFillAdd size={22} className="text-blue" />
-                </button>
+                {/* button div */}
+                <div>
+                  <button
+                    className="bg-[#0444a430] text-sm  text-white p-1 rounded"
+                    onClick={() => {
+                      sentFrienedRequest(
+                        friend._id,
+                        friend?.firstName,
+                        friend?.lastName
+                      );
+                    }}
+                  >
+                    <BsPersonFillAdd size={22} className="text-blue" />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

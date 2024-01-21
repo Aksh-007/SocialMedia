@@ -16,7 +16,7 @@ const FriendsRequest = () => {
   // useEffect to fetch data
   const fetchFriendRequest = async () => {
     try {
-      // setIsSubmitiing(true);
+      setIsSubmitiing(true);
       const response = await axios.get(
         `https://social-media-backend-hazel.vercel.app/api/v1/user/getAllFriendRequest/${userId}`,
         { withCredentials: true }
