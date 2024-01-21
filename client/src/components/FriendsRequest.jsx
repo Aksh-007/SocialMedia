@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
-import { requests } from "../assets/data";
 import { Link } from "react-router-dom";
 import NoProfile from "../assets/userprofile.png";
 import toast from "react-hot-toast";
@@ -8,7 +7,7 @@ import axios from "axios";
 import Loading from "./Loading";
 
 const FriendsRequest = () => {
-  const [friendRequest, setFriendRequest] = useState(requests);
+  const [friendRequest, setFriendRequest] = useState([]);
   const [isSubmitting, setIsSubmitiing] = useState(false);
   const [status, setStatus] = useState();
   const [requestId, setRequestId] = useState();
@@ -20,7 +19,6 @@ const FriendsRequest = () => {
       // setIsSubmitiing(true);
       const response = await axios.get(
         `https://social-media-backend-hazel.vercel.app/api/v1/user/getAllFriendRequest/${userId}`,
-        // `http://localhost:5000/api/v1/user/getAllFriendRequest/${userId}`,
         { withCredentials: true }
       );
       console.log("friend Request", response);
