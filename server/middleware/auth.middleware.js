@@ -6,7 +6,6 @@ import userSchema from "../models/user.schema.js";
 export const isLoggedIn = asyncHandler(async (req, res, next) => {
 
     let token;
-
     if (req.cookies.token || (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
     ) {
         token = req.cookies.token || req.headers.authorization.split(" ")[1]
@@ -31,7 +30,9 @@ export const isLoggedIn = asyncHandler(async (req, res, next) => {
         }
         next()
     } catch (error) {
+        console.log("error in catch", error)
         res.status(401).json({
+            error: error,
             success: false,
             message: "Not authorized to access this route",
         });
