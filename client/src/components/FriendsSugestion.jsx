@@ -52,7 +52,9 @@ const FriendsSugestion = () => {
         {/* <span>{friendRequest?.length}</span> */}
       </div>
       {isSubmitting ? (
-        <Loading className="mt-[50px]" />
+        <div className="mt-[70px]">
+          <Loading />
+        </div>
       ) : (
         <div className="w-full flex flex-col gap-4 pt-4">
           {suggestedFriends.map((friend) => (
