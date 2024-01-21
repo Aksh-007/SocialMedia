@@ -58,15 +58,14 @@ const FriendsRequest = () => {
   };
   return (
     <div className="w-full min-h-[150px] bg-primary shadow-sm rounded-lg px-6 p-5">
+      <div className="flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-borderColor">
+        <span>Friend Request</span>
+        <span>{friendRequest?.length}</span>
+      </div>
       {isSubmitting ? (
         <Loading />
       ) : (
         <>
-          <div className="flex items-center justify-between text-xl text-ascent-1 pb-2 border-b border-borderColor">
-            <span>Friend Request</span>
-            <span>{friendRequest?.length}</span>
-          </div>
-
           {friendRequest.length === 0 ? (
             <div className="text-ascent-1">No Request</div>
           ) : (
