@@ -103,7 +103,8 @@ export const login = asyncHandler(async (req, res) => {
     const cookieOptions = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        // secure: true, // Cookie will only be sent over HTTPS
+        sameSite: "none",
+        secure: true, // Cookie will only be sent over HTTPS
         // domain: 'example.com', // Cookie is valid for the entire domain
         // path: '/', // Cookie is valid for all URLs under the domain
     }
