@@ -9,11 +9,12 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitiing] = useState(false);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const verifyEmail = async () => {
     try {
       setIsSubmitiing(true);
       const response = await axios.get(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/verifyEmail/${userId}/${token}`
+        `h${BASE_URL}/user/verifyEmail/${userId}/${token}`
       );
       if (response.status === 200) {
         toast.success(response?.data?.message);

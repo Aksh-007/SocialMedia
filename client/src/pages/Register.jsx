@@ -23,6 +23,7 @@ const Register = () => {
     getValues,
     formState: { errors },
   } = useForm();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     // e.preventDefault();
@@ -31,7 +32,7 @@ const Register = () => {
       setIsSubmitiing(true);
       console.log(requestData);
       const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/auth/register`,
+        `${BASE_URL}/auth/register`,
         data
       );
       toast.success(response?.data?.message);

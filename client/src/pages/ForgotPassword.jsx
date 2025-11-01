@@ -6,6 +6,7 @@ import CustomButton from "../components/CustomButton.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
     try {
       setIsSubmitting(true);
       const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/forgot-password`,
+        `${BASE_URL}/user/forgot-password`,
         data
       );
       console.log(response);

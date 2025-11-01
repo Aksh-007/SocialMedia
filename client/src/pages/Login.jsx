@@ -14,6 +14,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { UserLogin } from "../redux/userSlice.js";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const Login = () => {
   const navigate = useNavigate();
   const {
@@ -31,7 +32,7 @@ const Login = () => {
       setIsSubmitiing(true);
 
       const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/auth/login`,
+        `${BASE_URL}/auth/login`,
         data
       );
       if (response.status === 200) {

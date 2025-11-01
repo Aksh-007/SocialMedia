@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading.jsx";
 import Cookies from "js-cookie";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ChangePassword = () => {
   const { userId } = useParams();
@@ -23,7 +24,7 @@ const ChangePassword = () => {
       setIsSubmitting(true);
       console.log("data is", data);
       const response = await axios.post(
-        `https://social-media-backend-hazel.vercel.app/api/v1/user/change-password/${userId}`,
+        `${BASE_URL}/user/change-password/${userId}`,
         data,
         {
           withCredentials: true, // Enable sending cookies
